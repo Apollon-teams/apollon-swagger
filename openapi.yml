@@ -1,0 +1,255 @@
+openapi: 3.0.3
+info:
+  title: Apollon API
+  description: |
+    Apollon 顧客管理サービスのAPI仕様書です。
+    このドキュメントは、管理者、キャスト、およびWeb予約システム間の対話に必要なすべてのエンドポイントを定義します。
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+servers:
+  - url: http://localhost:8080/v1
+    description: 開発環境サーバー
+  - url: https://api.apollon.example.com/v1
+    description: 本番環境サーバー
+
+tags:
+  # 管理者向け
+  - name: Admin-Auth
+    description: 認証関連 (管理者)
+  - name: Admin-Shops
+    description: 店舗管理
+  - name: Admin-Staffs
+    description: スタッフ管理
+  - name: Admin-Casts
+    description: キャスト管理
+  - name: Admin-Customers
+    description: 顧客管理
+  - name: Admin-Rooms
+    description: ルーム管理
+  - name: Admin-Reservations
+    description: 予約管理 (管理者)
+  - name: Admin-Reports
+    description: レポート機能 (管理者)
+
+  # キャスト向け
+  - name: Cast-Auth
+    description: 認証関連 (キャスト)
+  - name: Cast-Profile
+    description: プロフィール管理 (キャスト)
+  - name: Cast-Customers
+    description: 顧客管理 (キャスト)
+  - name: Cast-Reservations
+    description: 予約管理 (キャスト)
+  - name: Cast-Reports
+    description: レポート機能 (キャスト)
+
+  # Web予約向け
+  - name: Web-Reservations
+    description: Web予約
+
+paths:
+  # Admin Auth
+  /admin/auth/login:
+    post:
+      tags:
+        - Admin-Auth
+      summary: 管理者ログイン
+      description: メールアドレスとパスワードで認証し、トークンを返します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/admin/auth/LoginRequest.yaml'
+      responses:
+        '200':
+          description: ログイン成功
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/admin/auth/LoginResponse.yaml'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+
+  /admin/auth/logout:
+    post:
+      tags:
+        - Admin-Auth
+      summary: 管理者ログアウト
+      description: 現在のセッションを無効化します。
+      security:
+        - BearerAuth: []
+      responses:
+        '204':
+          description: ログアウト成功
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+
+  # Admin Shops
+  /admin/shops:
+    get:
+      tags:
+        - Admin-Shops
+      summary: 店舗一覧取得
+      description: 登録されている店舗の一覧を取得します。
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/schemas/admin/Shop.yaml'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+    post:
+      tags:
+        - Admin-Shops
+      summary: 店舗新規登録
+      description: 新しい店舗を登録します。
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/admin/Shop.yaml'
+      responses:
+        '201':
+          description: 登録成功
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/admin/Shop.yaml'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+
+  /admin/shops/{shopId}:
+    get:
+      tags:
+        - Admin-Shops
+      summary: 店舗情報取得
+      description: 指定したIDの店舗情報を取得します。
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: './components/parameters/common/PathId.yaml'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/admin/Shop.yaml'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+    patch:
+      tags:
+        - Admin-Shops
+      summary: 店舗情報更新
+      description: 指定したIDの店舗情報を更新します。
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: './components/parameters/common/PathId.yaml'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/schemas/admin/Shop.yaml'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/admin/Shop.yaml'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+    delete:
+      tags:
+        - Admin-Shops
+      summary: 店舗削除
+      description: 指定したIDの店舗情報を削除します。
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: './components/parameters/common/PathId.yaml'
+      responses:
+        '204':
+          description: 削除成功
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: './components/schemas/common/Error.yaml'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      $ref: './components/securitySchemes/BearerAuth.yaml'
+  parameters:
+    PathId:
+      $ref: './components/parameters/common/PathId.yaml'
