@@ -18,8 +18,8 @@ apollon-swagger/
     │   ├── admin/
     │   ├── common/
     │   └── web/
-    ├── parameters/        # 共通パラメータ定義
-    │   └── common/
+    ├── parameters/        # パラメータ定義
+    │   └── admin/
     ├── results/           # APIのレスポンスとして加工されたデータ構造
     │   ├── admin/
     │   └── web/
@@ -30,7 +30,7 @@ apollon-swagger/
 - **`components/`**: API全体で再利用されるコンポーネントを格納します。
   - `models/`: リクエストボディで利用するデータ構造や、システムのコアとなるデータモデルを定義します。
   - `results/`: APIのレスポンスとして返却するために加工・整形されたデータモデルを定義します。
-  - `parameters/`: パスパラメータなど、共通で利用するパラメータを定義します。
+  - `parameters/`: パスパラメータなどをリソースごとに定義します。
   - `securitySchemes/`: 認証方式を定義します。
 
 ## 運用ルール
@@ -44,7 +44,10 @@ apollon-swagger/
 
 ### スキーマ（モデル）の追加
 
-1.  **`components/schemas/`** ディレクトリ以下で、適切な場所（例: `admin/`）にモデル名（例: `NewStaff.yaml`）で新しいYAMLファイルを作成します。
-2.  作成したファイルに、OpenAPIの `Schema Object`（`type`, `properties`など）を記述します。
-3.  **`openapi.yaml`** の`requestBody`や`responses`内の`schema`から、作成したスキーマファイルを`$ref`で直接参照します。（例: `$ref: './components/schemas/admin/NewStaff.yaml'`）
+1.  スキーマの役割に応じて、**`components/models/`** または **`components/results/`** ディレクトリを選択します。
+    *   `models/`: リクエストボディや、DBモデルのようなコアなデータ構造の場合。
+    *   `results/`: APIのレスポンスとして整形されたデータ構造の場合。
+2.  選択したディレクトリ以下で、適切なコンテキスト（例: `admin/`）にモデル名（例: `NewStaff.yaml`）で新しいYAMLファイルを作成します。
+3.  作成したファイルに、OpenAPIの `Schema Object`（`type`, `properties`など）を記述します。
+4.  **`openapi.yaml`** の`requestBody`や`responses`内の`schema`から、作成したスキーマファイルを`$ref`で直接参照します。（例: `$ref: './components/models/admin/NewStaff.yaml'`）
 

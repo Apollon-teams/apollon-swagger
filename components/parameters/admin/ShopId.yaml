@@ -1,7 +1,7 @@
 name: shopId
 in: path
 required: true
-description: 操作対象リソースのID
+description: 店舗のID
 schema:
   type: string
   format: uuid

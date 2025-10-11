@@ -161,7 +161,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: "./components/parameters/common/PathId.yaml"
+        - $ref: "./components/parameters/admin/ShopId.yaml"
       responses:
         "200":
           description: 成功
@@ -189,7 +189,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: "./components/parameters/common/PathId.yaml"
+        - $ref: "./components/parameters/admin/ShopId.yaml"
       requestBody:
         required: true
         content:
@@ -229,7 +229,7 @@ paths:
       security:
         - BearerAuth: []
       parameters:
-        - $ref: "./components/parameters/common/PathId.yaml"
+        - $ref: "./components/parameters/admin/ShopId.yaml"
       responses:
         "204":
           description: 削除成功
@@ -391,5 +391,5 @@ components:
     BearerAuth:
       $ref: "./components/securitySchemes/BearerAuth.yaml"
   parameters:
-    PathId:
-      $ref: "./components/parameters/common/PathId.yaml"
+    ShopId:
+      $ref: "./components/parameters/admin/ShopId.yaml"
