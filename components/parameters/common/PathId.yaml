@@ -1,0 +1,7 @@
+name: shopId
+in: path
+required: true
+description: 操作対象リソースのID
+schema:
+  type: string
+  format: uuid

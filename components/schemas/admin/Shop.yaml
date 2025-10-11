@@ -1,0 +1,34 @@
+type: object
+description: 店舗情報
+properties:
+  id:
+    type: string
+    format: uuid
+    description: 店舗ID
+    readOnly: true
+  name:
+    type: string
+    description: 店舗名
+    example: 'Apollon 銀座店'
+  address:
+    type: string
+    description: 住所
+    example: '東京都中央区銀座1-1-1'
+  phone_number:
+    type: string
+    description: 電話番号
+    example: '03-1234-5678'
+  created_at:
+    type: string
+    format: date-time
+    description: 作成日時
+    readOnly: true
+  updated_at:
+    type: string
+    format: date-time
+    description: 更新日時
+    readOnly: true
+required:
+  - name
+  - address
+  - phone_number
