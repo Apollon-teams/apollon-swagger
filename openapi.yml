@@ -62,20 +62,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './components/schemas/admin/auth/LoginRequest.yaml'
+              $ref: './components/models/admin/auth/LoginRequest.yaml'
       responses:
         '200':
           description: ログイン成功
           content:
             application/json:
               schema:
-                $ref: './components/schemas/admin/auth/LoginResponse.yaml'
+                $ref: './components/results/admin/auth/LoginResponse.yaml'
         '400':
           description: リクエストエラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
 
   /admin/auth/logout:
     post:
@@ -93,7 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
 
   # Admin Shops
   /admin/shops:
@@ -112,13 +112,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './components/schemas/admin/Shop.yaml'
+                  $ref: './components/models/admin/Shop.yaml'
         '401':
           description: 認証エラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
     post:
       tags:
         - Admin-Shops
@@ -131,26 +131,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './components/schemas/admin/Shop.yaml'
+              $ref: './components/models/admin/Shop.yaml'
       responses:
         '201':
           description: 登録成功
           content:
             application/json:
               schema:
-                $ref: './components/schemas/admin/Shop.yaml'
+                $ref: './components/models/admin/Shop.yaml'
         '400':
           description: リクエストエラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
         '401':
           description: 認証エラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
 
   /admin/shops/{shopId}:
     get:
@@ -168,19 +168,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './components/schemas/admin/Shop.yaml'
+                $ref: './components/models/admin/Shop.yaml'
         '401':
           description: 認証エラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
     patch:
       tags:
         - Admin-Shops
@@ -195,32 +195,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './components/schemas/admin/Shop.yaml'
+              $ref: './components/models/admin/Shop.yaml'
       responses:
         '200':
           description: 更新成功
           content:
             application/json:
               schema:
-                $ref: './components/schemas/admin/Shop.yaml'
+                $ref: './components/models/admin/Shop.yaml'
         '400':
           description: リクエストエラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
         '401':
           description: 認証エラー
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
     delete:
       tags:
         - Admin-Shops
@@ -238,13 +238,153 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: './components/schemas/common/Error.yaml'
+                $ref: './components/models/common/Error.yaml'
+
+  /web/shops/{shopId}/casts:
+    get:
+      tags:
+        - Web-Reservations
+      summary: 予約可能キャスト一覧取得
+      description: 指定された店舗のWeb予約が可能なキャストの一覧を取得します。
+      parameters:
+        - name: shopId
+          in: path
+          required: true
+          description: 店舗ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/models/web/PublicCast.yaml'
+        '404':
+          description: 店舗が見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: './components/models/common/Error.yaml'
+
+  /web/shops/{shopId}/courses:
+    get:
+      tags:
+        - Web-Reservations
+      summary: 予約可能コース一覧取得
+      description: 指定された店舗のWeb予約で利用できるコースの一覧を取得します。
+      parameters:
+        - name: shopId
+          in: path
+          required: true
+          description: 店舗ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/models/web/PublicCourse.yaml'
+        '404':
+          description: 店舗が見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: './components/models/common/Error.yaml'
+
+  /web/shops/{shopId}/availability:
+    get:
+      tags:
+        - Web-Reservations
+      summary: 空き時間取得
+      description: 指定された店舗、日付、キャスト、コース条件に基づいた予約可能な時間帯のスロットを取得します。
+      parameters:
+        - name: shopId
+          in: path
+          required: true
+          description: 店舗ID
+          schema:
+            type: string
+            format: uuid
+        - name: date
+          in: query
+          required: true
+          description: 空き時間を検索する日付 (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+        - name: cast_id
+          in: query
+          description: 絞り込みたいキャストのID
+          schema:
+            type: string
+            format: uuid
+        - name: course_id
+          in: query
+          required: true
+          description: 予約したいコースのID（所要時間の計算に利用）
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: './components/results/web/Availability.yaml'
+        '404':
+          description: 店舗、キャスト、またはコースが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: './components/models/common/Error.yaml'
+
+  /web/reservations:
+    post:
+      tags:
+        - Web-Reservations
+      summary: 新規Web予約作成
+      description: 顧客からの情報に基づいて新しいWeb予約を作成します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/models/web/WebReservationRequest.yaml'
+      responses:
+        '201':
+          description: 予約成功
+          content:
+            application/json:
+              schema:
+                $ref: './components/results/web/ReservationConfirmation.yaml'
+        '400':
+          description: リクエストが無効です（入力値エラーなど）
+          content:
+            application/json:
+              schema:
+                $ref: './components/models/common/Error.yaml'
+        '409':
+          description: 予約の競合（指定された時間帯が既に埋まっているなど）
+          content:
+            application/json:
+              schema:
+                $ref: './components/models/common/Error.yaml'
 
 components:
   securitySchemes:
