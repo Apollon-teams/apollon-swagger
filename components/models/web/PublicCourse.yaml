@@ -1,0 +1,26 @@
+type: object
+description: Web予約で顧客が選択できるコースの情報
+properties:
+  id:
+    type: string
+    format: uuid
+    description: コースID
+  name:
+    type: string
+    description: コース名
+    example: 'スタンダードコース'
+  duration:
+    type: integer
+    format: int32
+    description: コースの所要時間（分）
+    example: 60
+  price:
+    type: integer
+    format: int32
+    description: 料金
+    example: 10000
+required:
+  - id
+  - name
+  - duration
+  - price

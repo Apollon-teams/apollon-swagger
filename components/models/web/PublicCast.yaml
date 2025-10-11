@@ -1,0 +1,35 @@
+type: object
+description: Web予約画面に表示するキャストの公開情報
+properties:
+  id:
+    type: string
+    format: uuid
+    description: キャストID
+  stage_name:
+    type: string
+    description: 源氏名
+    example: 'Airi'
+  profile_image_url:
+    type: string
+    format: uri
+    description: プロフィール画像のURL
+    example: 'https://example.com/images/airi.jpg'
+  description:
+    type: string
+    description: キャストの自己紹介文
+    example: '明るく楽しい時間を提供します！'
+  bust:
+    type: integer
+    description: バスト (cm)
+    example: 85
+  waist:
+    type: integer
+    description: ウエスト (cm)
+    example: 58
+  hip:
+    type: integer
+    description: ヒップ (cm)
+    example: 86
+required:
+  - id
+  - stage_name

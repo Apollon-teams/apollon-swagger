@@ -1,0 +1,33 @@
+type: object
+description: ルーム情報
+properties:
+  id:
+    type: string
+    format: uuid
+    description: ルームID
+    readOnly: true
+  shop_id:
+    type: string
+    format: uuid
+    description: 所属する店舗のID
+  name:
+    type: string
+    description: ルーム名
+    example: 'VIPルーム'
+  is_available:
+    type: boolean
+    description: 現在利用可能かどうか
+    default: true
+  created_at:
+    type: string
+    format: date-time
+    description: 作成日時
+    readOnly: true
+  updated_at:
+    type: string
+    format: date-time
+    description: 更新日時
+    readOnly: true
+required:
+  - shop_id
+  - name

@@ -14,7 +14,7 @@ properties:
     type: string
     description: 住所
     example: '東京都中央区銀座1-1-1'
-  phone_number:
+  phone:
     type: string
     description: 電話番号
     example: '03-1234-5678'
@@ -31,4 +31,4 @@ properties:
 required:
   - name
   - address
-  - phone_number
+  - phone

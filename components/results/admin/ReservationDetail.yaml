@@ -1,0 +1,58 @@
+type: object
+description: 詳細な予約情報（管理者向け）
+properties:
+  id:
+    type: string
+    format: uuid
+    description: 予約ID
+    readOnly: true
+  cast_id:
+    type: string
+    format: uuid
+    description: 担当キャストのID
+  customer_id:
+    type: string
+    format: uuid
+    description: 顧客のID
+  course_id:
+    type: string
+    format: uuid
+    description: コースのID
+  room_id:
+    type: string
+    format: uuid
+    description: 利用するルームのID
+  start_time:
+    type: string
+    format: date-time
+    description: 予約開始日時 (ISO 8601)
+  end_time:
+    type: string
+    format: date-time
+    description: 予約終了日時 (ISO 8601)
+    readOnly: true
+  status:
+    type: string
+    description: 予約ステータス
+    enum: [pending, confirmed, cancelled, completed]
+    example: confirmed
+  note:
+    type: string
+    description: 予約に関するメモ（管理者用）
+  created_at:
+    type: string
+    format: date-time
+    description: 作成日時
+    readOnly: true
+  updated_at:
+    type: string
+    format: date-time
+    description: 更新日時
+    readOnly: true
+required:
+  - cast_id
+  - customer_id
+  - course_id
+  - room_id
+  - start_time
+  - status

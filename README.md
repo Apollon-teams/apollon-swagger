@@ -14,19 +14,22 @@ apollon-swagger/
 ├── README.md
 ├── openapi.yaml         # API定義のすべてを記述するメインファイル
 └── components/            # 再利用可能なコンポーネント
+    ├── models/            # コアなデータ構造（リクエストボディやDBモデルなど）
+    │   ├── admin/
+    │   ├── common/
+    │   └── web/
     ├── parameters/        # 共通パラメータ定義
     │   └── common/
-    ├── schemas/           # データモデル（スキーマ）定義
+    ├── results/           # APIのレスポンスとして加工されたデータ構造
     │   ├── admin/
-    │   ├── cast/
-    │   ├── common/
     │   └── web/
     └── securitySchemes/   # 認証スキーマ定義
 ```
 
 - **`openapi.yaml`**: APIの全エンドポイント、`summary`、`description`、レスポンスコードなど、仕様のほぼすべてをこのファイルに記述します。
 - **`components/`**: API全体で再利用されるコンポーネントを格納します。
-  - `schemas/`: リクエストボディやレスポンスで利用するデータ構造（モデル）をファイル単位で定義します。これらのファイルが`openapi.yaml`から直接参照されます。
+  - `models/`: リクエストボディで利用するデータ構造や、システムのコアとなるデータモデルを定義します。
+  - `results/`: APIのレスポンスとして返却するために加工・整形されたデータモデルを定義します。
   - `parameters/`: パスパラメータなど、共通で利用するパラメータを定義します。
   - `securitySchemes/`: 認証方式を定義します。
 

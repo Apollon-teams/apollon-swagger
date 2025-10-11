@@ -1,0 +1,30 @@
+type: object
+description: 特定の日付における予約可能な時間帯の情報
+properties:
+  date:
+    type: string
+    format: date
+    description: 日付 (YYYY-MM-DD)
+    example: '2025-10-11'
+  slots:
+    type: array
+    description: 予約可能な時間スロットのリスト
+    items:
+      type: object
+      properties:
+        start_time:
+          type: string
+          format: time
+          description: 開始時間 (HH:MM)
+          example: '10:00'
+        end_time:
+          type: string
+          format: time
+          description: 終了時間 (HH:MM)
+          example: '12:00'
+      required:
+        - start_time
+        - end_time
+required:
+  - date
+  - slots
