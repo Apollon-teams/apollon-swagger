@@ -242,7 +242,7 @@ paths:
         '404':
           description: Not Found
           content:
-            application/json
+            application/json:
               schema:
                 $ref: './components/schemas/common/Error.yaml'
 
