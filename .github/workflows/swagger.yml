@@ -23,13 +23,13 @@ jobs:
 
       - name: Validate Swagger Files
         run: |
-          swagger-cli validate -d swagger-tutorial.yml --type yaml
+          swagger-cli validate -d openapi.yml --type yaml
 
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
           output: swagger-ui
-          spec-file: swagger-tutorial.yml
+          spec-file: openapi.yml
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
