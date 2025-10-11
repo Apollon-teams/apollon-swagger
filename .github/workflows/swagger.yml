@@ -4,17 +4,19 @@ on:
   push:
     branches:
       - main
-    paths:
-      - openapi.yml
-      - .github/workflows/swagger.yml
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: List files in current directory
+        run: ls -R
 
       - name: Install swagger-cli
         run: npm install -g swagger-cli
@@ -27,9 +29,10 @@ jobs:
         with:
           output: swagger-ui
           spec-file: openapi.yml
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.PAT_GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: swagger-ui
