@@ -1,7 +1,7 @@
 name: shopId
 in: path
 required: true
-description: 店舗のID
+description: 店舗ID
 schema:
   type: string
-  format: uuid
+  example: '1014'

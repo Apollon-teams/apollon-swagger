@@ -1,0 +1,18 @@
+type: object
+properties:
+  shop_name:
+    type: string
+    description: 店舗名
+    example: 'Apollon 銀座店'
+  website_url:
+    type: string
+    description: HPリンクURL
+    example: 'https://example.com/ginza'
+  business_hours:
+    type: string
+    description: 営業時間
+    example: '18:00 - 26:00'
+  location:
+    type: string
+    description: 最寄り(地域)
+    example: '銀座'
