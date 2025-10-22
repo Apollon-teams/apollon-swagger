@@ -1,0 +1,35 @@
+type: object
+properties:
+  cast_name:
+    type: string
+    description: キャスト名(源氏名)
+    example: 'さくら'
+  profile_image_url:
+    type: string
+    description: キャスト画像パス (1枚目に登録してある画像のみ)
+    example: 'https://example.com/images/cast1_1.jpg'
+  age:
+    type: integer
+    description: 年齢
+    example: 25
+  height:
+    type: integer
+    description: 身長
+    example: 160
+  bust_size:
+    type: string
+    description: バスト
+    example: 'D'
+  earliest_start_time:
+    type: string
+    format: time
+    description: 最短対応可能時間
+    example: '19:00'
+  work_schedule:
+    type: string
+    description: 出勤時間
+    example: '19:00 - 23:00'
+  x_account:
+    type: string
+    description: XアカウントのURL
+    example: 'https://x.com/cast_sakura'

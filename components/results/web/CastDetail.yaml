@@ -1,0 +1,49 @@
+type: object
+properties:
+  cast_name:
+    type: string
+    description: キャスト名(源氏名)
+    example: 'さくら'
+  image_urls:
+    type: array
+    items:
+      type: string
+    description: キャスト画像パス (複数の画像すべて)
+    example: ['https://example.com/images/cast1_1.jpg', 'https://example.com/images/cast1_2.jpg']
+  age:
+    type: integer
+    description: 年齢
+    example: 25
+  height:
+    type: integer
+    description: 身長
+    example: 160
+  bust_size:
+    type: string
+    description: バスト
+    example: 'D'
+  x_account:
+    type: string
+    description: XアカウントのURL
+    example: 'https://x.com/cast_sakura'
+  schedule:
+    type: array
+    description: 2週間分の出勤スケジュール
+    items:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          example: '2025-10-22'
+        availability:
+          type: string
+          example: '19:00 - 23:00'
+  shop_comment:
+    type: string
+    description: お店のコメント
+    example: '当店No.1の癒し系キャストです！'
+  cast_message:
+    type: string
+    description: キャストのメッセージ
+    example: 'はじめまして、さくらです。素敵な時間を過ごしましょう！'

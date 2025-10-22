@@ -1,6 +1,0 @@
-type: object
-description: 管理者ログイン成功レスポンス
-properties:
-  token:
-    type: string
-    description: JWT

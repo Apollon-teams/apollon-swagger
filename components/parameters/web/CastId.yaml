@@ -1,0 +1,7 @@
+name: castId
+in: path
+required: true
+description: キャストID
+schema:
+  type: string
+  example: 'c_123'

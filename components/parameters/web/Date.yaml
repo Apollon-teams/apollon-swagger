@@ -1,0 +1,8 @@
+name: date
+in: query
+required: true
+description: 日付 (YYYY-MM-DD)
+schema:
+  type: string
+  format: date
+  example: '2025-10-22'

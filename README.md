@@ -12,7 +12,7 @@ API の定義は、可読性と一覧性を重視し、原則としてメイン�
 ```
 apollon-swagger/
 ├── README.md
-├── openapi.yaml         # API定義のすべてを記述するメインファイル
+├── openapi.yml         # API定義のすべてを記述するメインファイル
 └── components/            # 再利用可能なコンポーネント
     ├── models/            # コアなデータ構造（リクエストボディやDBモデルなど）
     │   ├── admin/
@@ -26,7 +26,7 @@ apollon-swagger/
     └── securitySchemes/   # 認証スキーマ定義
 ```
 
-- **`openapi.yaml`**: API の全エンドポイント、`summary`、`description`、レスポンスコードなど、仕様のほぼすべてをこのファイルに記述します。
+- **`openapi.yml`**: API の全エンドポイント、`summary`、`description`、レスポンスコードなど、仕様のほぼすべてをこのファイルに記述します。
 - **`components/`**: API 全体で再利用されるコンポーネントを格納します。
   - `models/`: リクエストボディで利用するデータ構造や、システムのコアとなるデータモデルを定義します。
   - `results/`: API のレスポンスとして返却するために加工・整形されたデータモデルを定義します。
@@ -37,7 +37,7 @@ apollon-swagger/
 
 ### エンドポイントの追加・修正
 
-1.  **`openapi.yaml`** を直接編集します。
+1.  **`openapi.yml`** を直接編集します。
 2.  `summary`, `description`, `tags`, `parameters`, `responses`などを記述します。
 3.  リクエストボディやレスポンスで新しいデータモデルが必要な場合は、以下の「スキーマの追加」の手順に従ってスキーマファイルを作成し、`schema`セクションから`$ref`で参照します。
 
@@ -48,10 +48,10 @@ apollon-swagger/
     - `results/`: API のレスポンスとして整形されたデータ構造の場合。
 2.  選択したディレクトリ以下で、適切なコンテキスト（例: `admin/`）にモデル名（例: `NewStaff.yaml`）で新しい YAML ファイルを作成します。
 3.  作成したファイルに、OpenAPI の `Schema Object`（`type`, `properties`など）を記述します。
-4.  **`openapi.yaml`** の`requestBody`や`responses`内の`schema`から、作成したスキーマファイルを`$ref`で直接参照します。（例: `$ref: './components/models/admin/NewStaff.yaml'`）
+4.  **`openapi.yml`** の`requestBody`や`responses`内の`schema`から、作成したスキーマファイルを`$ref`で直接参照します。（例: `$ref: './components/models/admin/NewStaff.yaml'`）
 
 ### パラメータの追加
 
 1.  **`components/parameters/`** ディレクトリ以下で、適切なコンテキスト（例: `admin/`）にパラメータ名（例: `CastId.yaml`）で新しい YAML ファイルを作成します。
 2.  作成したファイルに、OpenAPI の `Parameter Object`（`name`, `in`, `description`, `required`, `schema`など）を記述します。
-3.  **`openapi.yaml`** の`parameters`セクションから、作成したパラメータファイルを`$ref`で参照します。（例: `$ref: './components/parameters/admin/CastId.yaml'`）
+3.  **`openapi.yml`** の`parameters`セクションから、作成したパラメータファイルを`$ref`で参照します。（例: `$ref: './components/parameters/admin/CastId.yaml'`）
