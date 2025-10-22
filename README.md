@@ -48,7 +48,8 @@ apollon-swagger/
     - `results/`: API のレスポンスとして整形されたデータ構造の場合。
 2.  選択したディレクトリ以下で、適切なコンテキスト（例: `admin/`）にモデル名（例: `NewStaff.yaml`）で新しい YAML ファイルを作成します。
 3.  作成したファイルに、OpenAPI の `Schema Object`（`type`, `properties`など）を記述します。
-4.  **`openapi.yml`** の`requestBody`や`responses`内の`schema`から、作成したスキーマファイルを`$ref`で直接参照します。（例: `$ref: './components/models/admin/NewStaff.yaml'`）
+4.  **`openapi.yml`** の`components/schemas`セクションに、作成したスキーマファイルを`$ref`で参照するエントリを追加します。（例: `NewStaff: { $ref: './components/models/admin/NewStaff.yaml' }`）
+5.  **`openapi.yml`** の`requestBody`や`responses`内の`schema`から、`#/components/schemas/スキーマ名`の形式で参照します。（例: `$ref: '#/components/schemas/NewStaff'`）
 
 ### パラメータの追加
 
