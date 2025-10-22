@@ -36,13 +36,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './components/results/web/AttendanceCast.yaml'
+                  $ref: '#/components/schemas/AttendanceCast'
         '404':
           description: 店舗が見つかりません
           content:
             application/json:
               schema:
-                $ref: './components/models/common/Error.yaml'
+                $ref: '#/components/schemas/Error'
 
   /web/shops/{shopId}:
     get:
@@ -58,13 +58,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './components/results/web/ShopInfo.yaml'
+                $ref: '#/components/schemas/ShopInfo'
         '404':
           description: 店舗が見つかりません
           content:
             application/json:
               schema:
-                $ref: './components/models/common/Error.yaml'
+                $ref: '#/components/schemas/Error'
 
   /web/shops/{shopId}/prices:
     get:
@@ -80,17 +80,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './components/results/web/PriceInfo.yaml'
+                $ref: '#/components/schemas/PriceInfo'
         '404':
           description: 店舗が見つかりません
           content:
             application/json:
               schema:
-                $ref: './components/models/common/Error.yaml'
+                $ref: '#/components/schemas/Error'
 
   /web/casts/{castId}:
     get:
-      tags:
+      tags: 
         - Web
       summary: キャスト情報詳細取得API
       description: 指定したIDのキャストの詳細情報を取得します。
@@ -109,15 +109,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './components/results/web/CastDetail.yaml'
+                $ref: '#/components/schemas/CastDetail'
         '404':
           description: キャストが見つかりません
           content:
             application/json:
               schema:
-                $ref: './components/models/common/Error.yaml'
+                $ref: '#/components/schemas/Error'
 
 components:
+  schemas:
+    AttendanceCast:
+      $ref: './components/results/web/AttendanceCast.yaml'
+    CastDetail:
+      $ref: './components/results/web/CastDetail.yaml'
+    Error:
+      $ref: './components/models/common/Error.yaml'
+    PriceInfo:
+      $ref: './components/results/web/PriceInfo.yaml'
+    ShopInfo:
+      $ref: './components/results/web/ShopInfo.yaml'
   securitySchemes:
     BearerAuth:
       $ref: './components/securitySchemes/BearerAuth.yaml'
