@@ -26,23 +26,23 @@ paths:
       summary: アテンダンスキャスト一覧取得API
       description: 指定された店舗と日付における出勤キャストの一覧を取得します。
       parameters:
-        - $ref: './components/parameters/web/ShopId.yaml'
-        - $ref: './components/parameters/web/Date.yaml'
+        - $ref: "./components/parameters/web/ShopId.yaml"
+        - $ref: "./components/parameters/web/Date.yaml"
       responses:
-        '200':
+        "200":
           description: 成功
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AttendanceCast'
-        '404':
+                  $ref: "#/components/schemas/AttendanceCast"
+        "404":
           description: 店舗が見つかりません
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
   /web/shops/{shopId}:
     get:
@@ -51,20 +51,20 @@ paths:
       summary: 店舗情報取得API
       description: 指定したIDの店舗情報を取得します。
       parameters:
-        - $ref: './components/parameters/web/ShopId.yaml'
+        - $ref: "./components/parameters/web/ShopId.yaml"
       responses:
-        '200':
+        "200":
           description: 成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShopInfo'
-        '404':
+                $ref: "#/components/schemas/ShopInfo"
+        "404":
           description: 店舗が見つかりません
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
   /web/shops/{shopId}/prices:
     get:
@@ -73,62 +73,104 @@ paths:
       summary: 料金情報取得API
       description: 指定した店舗の料金情報を取得します。
       parameters:
-        - $ref: './components/parameters/web/ShopId.yaml'
+        - $ref: "./components/parameters/web/ShopId.yaml"
       responses:
-        '200':
+        "200":
           description: 成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PriceInfo'
-        '404':
+                $ref: "#/components/schemas/PriceInfo"
+        "404":
           description: 店舗が見つかりません
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 
   /web/casts/{castId}:
     get:
-      tags: 
+      tags:
         - Web
       summary: キャスト情報詳細取得API
       description: 指定したIDのキャストの詳細情報を取得します。
       parameters:
-        - $ref: './components/parameters/web/CastId.yaml'
+        - $ref: "./components/parameters/web/CastId.yaml"
         - name: shopId
           in: query
           required: false
           description: 店舗ID (キャストが複数の店舗に所属する場合の絞り込みに利用)
           schema:
             type: string
-            example: '1014'
+            example: "1014"
       responses:
-        '200':
+        "200":
           description: 成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CastDetail'
-        '404':
+                $ref: "#/components/schemas/CastDetail"
+        "404":
           description: キャストが見つかりません
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
+
+  /web/reservations:
+    post:
+      tags:
+        - Web
+      summary: Web予約フォーム送信API
+      description: 顧客がWeb予約フォームから予約情報を送信します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Reservation"
+      responses:
+        "201":
+          description: 予約成功
+        "400":
+          description: リクエストが不正です
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: 指定されたキャスト、またはコースが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: 予約時間が既に埋まっています
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
     AttendanceCast:
-      $ref: './components/results/web/AttendanceCast.yaml'
+      $ref: "./components/results/web/AttendanceCast.yaml"
     CastDetail:
-      $ref: './components/results/web/CastDetail.yaml'
+      $ref: "./components/results/web/CastDetail.yaml"
     Error:
-      $ref: './components/models/common/Error.yaml'
+      $ref: "./components/models/common/Error.yaml"
     PriceInfo:
-      $ref: './components/results/web/PriceInfo.yaml'
+      $ref: "./components/results/web/PriceInfo.yaml"
+    Reservation:
+      $ref: "./components/models/web/Reservation.yaml"
     ShopInfo:
-      $ref: './components/results/web/ShopInfo.yaml'
+      $ref: "./components/results/web/ShopInfo.yaml"
   securitySchemes:
     BearerAuth:
-      $ref: './components/securitySchemes/BearerAuth.yaml'
+      $ref: "./components/securitySchemes/BearerAuth.yaml"

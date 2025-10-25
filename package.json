@@ -5,6 +5,9 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
-    "openapi-format": "^1.29.0"
+    "prettier": "^3.6.2"
+  },
+  "lint-staged": {
+    "*.{yaml,yml,json}": "prettier --write"
   }
 }

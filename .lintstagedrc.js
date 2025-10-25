@@ -1,3 +1,3 @@
 module.exports = {
-  '**/*.{yaml,yml}': ['openapi-format format'],
+  '**/*.{yaml,yml}': ['prettier --write'],
 };
