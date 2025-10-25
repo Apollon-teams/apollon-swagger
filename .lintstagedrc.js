@@ -1,3 +1,4 @@
 module.exports = {
-  '**/*.{yaml,yml}': ['openapi-format format'],
+  '**/*.{yaml,yml}': (filenames) =>
+    filenames.map((filename) => `openapi-format ${filename} -o ${filename}`),
 };
