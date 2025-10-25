@@ -19,6 +19,18 @@ properties:
   bust_size:
     type: string
     description: バスト
+    enum:
+      - 'A'
+      - 'B'
+      - 'C'
+      - 'D'
+      - 'E'
+      - 'F'
+      - 'G'
+      - 'H'
+      - 'I'
+      - 'J'
+      - 'K'
     example: 'D'
   available_start_times:
     type: array
