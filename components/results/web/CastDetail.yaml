@@ -21,6 +21,18 @@ properties:
   bust_size:
     type: string
     description: バスト
+    enum:
+      - 'A'
+      - 'B'
+      - 'C'
+      - 'D'
+      - 'E'
+      - 'F'
+      - 'G'
+      - 'H'
+      - 'I'
+      - 'J'
+      - 'K'
     example: 'D'
   x_account:
     type: string

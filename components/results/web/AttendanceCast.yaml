@@ -19,12 +19,26 @@ properties:
   bust_size:
     type: string
     description: バスト
+    enum:
+      - 'A'
+      - 'B'
+      - 'C'
+      - 'D'
+      - 'E'
+      - 'F'
+      - 'G'
+      - 'H'
+      - 'I'
+      - 'J'
+      - 'K'
     example: 'D'
-  earliest_start_time:
-    type: string
-    format: time
-    description: 最短対応可能時間
-    example: '19:00'
+  available_start_times:
+    type: array
+    items:
+      type: string
+      format: time
+    description: 予約可能な開始時刻のリスト（5分単位）
+    example: ['19:00', '19:05', '19:10']
   work_schedule:
     type: string
     description: 出勤時間

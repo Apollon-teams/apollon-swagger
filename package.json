@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "openapi-format": "^1.29.0"
+  }
+}
