@@ -71,7 +71,7 @@ paths:
       tags:
         - Web
       summary: 料金情報取得API
-      description: 指定した店舗の料金情報を取得します。
+        description: 指定した店舗の料金情報を取得します。
       parameters:
         - $ref: './components/parameters/web/ShopId.yaml'
       responses:
