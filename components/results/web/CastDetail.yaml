@@ -1,4 +1,15 @@
 type: object
+required:
+  - cast_name
+  - image_urls
+  - age
+  - height
+  - bust_size
+  - x_account
+  - area
+  - schedule
+  - shop_comment
+  - cast_message
 properties:
   cast_name:
     type: string
@@ -38,6 +49,10 @@ properties:
     type: string
     description: XアカウントのURL
     example: 'https://x.com/cast_sakura'
+  area:
+    type: string
+    description: エリア
+    example: 'shibuya'
   schedule:
     type: array
     description: 2週間分の出勤スケジュール
