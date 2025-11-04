@@ -1,5 +1,19 @@
 type: object
+required:
+  - cast_id
+  - cast_name
+  - profile_image_url
+  - age
+  - height
+  - bust_size
+  - available_start_times
+  - work_schedule
+  - area
 properties:
+  cast_id:
+    type: integer
+    description: キャストID
+    example: 1
   cast_name:
     type: string
     description: キャスト名(源氏名)
@@ -47,3 +61,7 @@ properties:
     type: string
     description: XアカウントのURL
     example: 'https://x.com/cast_sakura'
+  area:
+    type: string
+    description: エリア
+    example: 'shibuya'

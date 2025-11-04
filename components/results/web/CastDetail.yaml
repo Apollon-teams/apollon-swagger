@@ -38,6 +38,10 @@ properties:
     type: string
     description: XアカウントのURL
     example: 'https://x.com/cast_sakura'
+  area:
+    type: string
+    description: エリア
+    example: 'shibuya'
   schedule:
     type: array
     description: 2週間分の出勤スケジュール
