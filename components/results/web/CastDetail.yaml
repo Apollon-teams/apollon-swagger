@@ -1,4 +1,15 @@
 type: object
+required:
+  - cast_name
+  - image_urls
+  - age
+  - height
+  - bust_size
+  - x_account
+  - area
+  - schedule
+  - shop_comment
+  - cast_message
 properties:
   cast_name:
     type: string
