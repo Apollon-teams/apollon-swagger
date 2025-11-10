@@ -1,5 +1,6 @@
 type: object
 required:
+  - cast_id
   - cast_name
   - image_urls
   - age
@@ -11,6 +12,10 @@ required:
   - shop_comment
   - cast_message
 properties:
+  cast_id:
+    type: string
+    description: キャストID
+    example: 'test1'
   cast_name:
     type: string
     description: キャスト名(源氏名)
