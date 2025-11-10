@@ -11,9 +11,9 @@ required:
   - area
 properties:
   cast_id:
-    type: integer
+    type: string
     description: キャストID
-    example: 1
+    example: 'test1'
   cast_name:
     type: string
     description: キャスト名(源氏名)
