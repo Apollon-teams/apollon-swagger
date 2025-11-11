@@ -47,6 +47,16 @@ properties:
     description: 備考（任意入力）
     nullable: true
     example: "常連様です。VIPルーム希望。"
+  treatment_note:
+    type: string
+    description: 施術メモ
+    nullable: true
+    example: "いい人"
+  request:
+    type: string
+    description: ご要望
+    nullable: true
+    example: "静かに過ごしたい"
 required:
   - reservation_datetime
   - shimei_type
