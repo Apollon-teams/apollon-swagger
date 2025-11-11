@@ -5,5 +5,100 @@ properties:
     description: フォーム項目リスト
     items:
       $ref: './ReservationFormItem.yaml'
+    example:
+      - key: "reservation_datetime"
+        label: "予約可能日時"
+        type: "datetime"
+        required: true
+        options:
+          - "2025-11-10T10:00:00Z"
+          - "2025-11-10T10:05:00Z"
+          - "2025-11-10T10:10:00Z"
+      - key: "cast_name"
+        label: "担当キャスト"
+        type: "text"
+        required: true
+        value: "相川りな"
+      - key: "nomination"
+        label: "指名"
+        type: "radio"
+        required: false
+        options:
+          - label: "写真指名"
+            value: "hime_photo"
+          - label: "本指名"
+            value: "hime_regular"
+      - key: "extension"
+        label: "延長料金"
+        type: "radio"
+        required: false
+        options:
+          - label: "30分"
+            value: "30"
+          - label: "60分"
+            value: "60"
+          - label: "90分"
+            value: "90"
+      - key: "discount"
+        label: "店舗割引"
+        type: "radio"
+        required: false
+        options:
+          - label: "割引A"
+            value: "A"
+          - label: "割引B"
+            value: "B"
+      - key: "payment_method"
+        label: "支払い方法"
+        type: "radio"
+        required: true
+        options:
+          - label: "現金"
+            value: "cash"
+          - label: "カード"
+            value: "card"
+      - key: "reservation_method"
+        label: "予約方法"
+        type: "radio"
+        required: true
+        options:
+          - label: "LINE"
+            value: "line"
+          - label: "X"
+            value: "x"
+          - label: "Instagram"
+            value: "instagram"
+      - key: "advertisement"
+        label: "広告"
+        type: "select"
+        required: false
+        options:
+          - label: "X"
+            value: "x"
+          - label: "Instagram"
+            value: "instagram"
+          - label: "TikTok"
+            value: "tiktok"
+          - label: "HP"
+            value: "hp"
+      - key: "request"
+        label: "ご要望"
+        type: "textarea"
+        required: false
+        value: ""
+      - key: "treatment_note"
+        label: "施術メモ"
+        type: "textarea"
+        required: false
+        value: ""
+      - key: "reservation_status"
+        label: "予約ステータス"
+        type: "radio"
+        required: true
+        options:
+          - label: "新規予約"
+            value: "new"
+          - label: "下書き"
+            value: "draft"
 required:
   - data
