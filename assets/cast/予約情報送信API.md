@@ -34,6 +34,7 @@ POST
 
 ---
 
+
 ### リクエストボディ
 
 | フィールド名 | 型 | 説明 | null許容(◯ / ✕) |
@@ -45,9 +46,9 @@ POST
 | payment_method | string | 支払い方法（`unknown`, `cash`, `card`） | ✕ |
 | reservation_method | string | 予約方法（`line`, `x`, `instagram`, `other`） | ✕ |
 | reservation_status | string | ステータス（`new`, `draft`） | ✕ |
-| advertisement | array<string> | 広告媒体（複数選択可） | ✕
-※選択無しの場合は空配列`[]`で送る |
-| memo | string | 備考（任意入力） | ◯ |
+| advertisement | array<string> | 広告媒体（複数選択可） | ✕<br />※選択無しの場合は空配列`[]`で送る |
+| treatment_note | string | 施術メモ | ◯ |
+| request | string | ご要望 | ◯ |
 
 ---
 
@@ -63,12 +64,15 @@ POST
   "reservation_method": "line",
   "reservation_status": "new",
   "advertisement": ["x", "instagram"],
-  "memo": "常連様です。VIPルーム希望。"
+  "memo": "常連様です。VIPルーム希望。",
+  "treatment_note": "いい人",
+  "request": "静かに過ごしたい",
 }
 
 ```
 
 ---
+
 
 ## 正常系レスポンス（201 Created）
 
