@@ -1,0 +1,36 @@
+type: object
+properties:
+  reservation_id:
+    type: string
+    description: 予約ID
+    example: "res_98231"
+  shop_id:
+    type: string
+    description: 店舗ID
+    example: "1"
+  cast_id:
+    type: string
+    description: キャストID
+    example: "12"
+  reservation_datetime:
+    type: string
+    format: date-time
+    description: 予約日時（ISO8601）
+    example: "2025-11-15T20:00:00+09:00"
+  status:
+    type: string
+    description: 登録結果
+    enum: [created, updated]
+    example: "created"
+  created_at:
+    type: string
+    format: date-time
+    description: 登録日時
+    example: "2025-11-10T18:00:00+09:00"
+required:
+  - reservation_id
+  - shop_id
+  - cast_id
+  - reservation_datetime
+  - status
+  - created_at

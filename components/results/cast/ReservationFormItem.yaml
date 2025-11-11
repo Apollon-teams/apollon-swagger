@@ -1,0 +1,33 @@
+type: object
+properties:
+  key:
+    type: string
+    description: 項目識別子
+    example: "extension"
+  label:
+    type: string
+    description: 表示ラベル
+    example: "延長料金"
+  type:
+    type: string
+    description: 入力タイプ（text, radio, select, datetime, image等）
+    example: "radio"
+  value:
+    type: string
+    description: 初期値
+    nullable: true
+  required:
+    type: boolean
+    description: 必須かどうか
+    example: false
+  options:
+    type: array
+    description: 選択肢リスト（radio/selectの場合のみ）
+    items:
+      $ref: './ReservationFormItemOption.yaml'
+    nullable: true
+required:
+  - key
+  - label
+  - type
+  - required

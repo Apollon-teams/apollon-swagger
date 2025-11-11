@@ -16,7 +16,9 @@ servers:
 
 tags:
   - name: Web
-    description: Web予約関連
+    description: Web予約
+  - name: Cast
+    description: キャスト専用管理
 
 paths:
   /web/shops/{shopId}/attendance-casts:
@@ -156,6 +158,99 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /cast/reservations:
+    post:
+      tags:
+        - Cast
+      summary: 予約情報送信API
+      description: キャストが予約情報を登録します。
+      parameters:
+        - $ref: "#/components/parameters/ShopQueryId"
+        - $ref: "#/components/parameters/CastQueryId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CastReservation"
+      responses:
+        "201":
+          description: 予約成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatedCastReservationResponse"
+        "400":
+          description: 必須項目の未入力、形式エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: 認証エラー（トークン不正）
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: 店舗またはキャスト権限なし
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: 重複予約（同時刻に既存予約あり）
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /cast/reservation-items:
+    get:
+      tags:
+        - Cast
+      summary: 予約項目取得API
+      description: 予約フォームに必要な項目や選択肢のリストを取得します。キャストのシフト、店舗の営業時間、既存の予約状況を考慮した予約可能な日時も含まれます。
+      parameters:
+        - $ref: "#/components/parameters/CastQueryId"
+        - $ref: "#/components/parameters/ShopQueryId"
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservationForm"
+        "400":
+          description: パラメータ不正
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: トークン不正または期限切れ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: 店舗が存在しない、またはフォーム項目未設定
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
@@ -163,14 +258,31 @@ components:
       $ref: "./components/results/web/AttendanceCast.yaml"
     CastDetail:
       $ref: "./components/results/web/CastDetail.yaml"
+    CastReservation:
+      $ref: "./components/models/cast/CastReservation.yaml"
+    CreatedCastReservation:
+      $ref: "./components/results/cast/CreatedCastReservation.yaml"
+    CreatedCastReservationResponse:
+      $ref: "./components/results/cast/CreatedCastReservationResponse.yaml"
     Error:
       $ref: "./components/models/common/Error.yaml"
     PriceInfo:
       $ref: "./components/results/web/PriceInfo.yaml"
     Reservation:
       $ref: "./components/models/web/Reservation.yaml"
+    ReservationForm:
+      $ref: "./components/results/cast/ReservationForm.yaml"
+    ReservationFormItem:
+      $ref: "./components/results/cast/ReservationFormItem.yaml"
+    ReservationFormItemOption:
+      $ref: "./components/results/cast/ReservationFormItemOption.yaml"
     ShopInfo:
       $ref: "./components/results/web/ShopInfo.yaml"
+  parameters:
+    CastQueryId:
+      $ref: "./components/parameters/cast/CastId.yaml"
+    ShopQueryId:
+      $ref: "./components/parameters/cast/ShopId.yaml"
   securitySchemes:
     BearerAuth:
       $ref: "./components/securitySchemes/BearerAuth.yaml"
