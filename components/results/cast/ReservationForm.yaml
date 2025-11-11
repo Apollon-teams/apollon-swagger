@@ -1,0 +1,9 @@
+type: object
+properties:
+  data:
+    type: array
+    description: フォーム項目リスト
+    items:
+      $ref: './ReservationFormItem.yaml'
+required:
+  - data

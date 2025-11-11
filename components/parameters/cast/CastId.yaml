@@ -1,0 +1,7 @@
+name: cast_id
+in: query
+description: キャストID
+required: true
+schema:
+  type: string
+  example: "cast001"

@@ -1,0 +1,13 @@
+type: object
+properties:
+  label:
+    type: string
+    description: 選択肢表示名
+    example: '30分'
+  value:
+    type: string
+    description: 選択肢値
+    example: '30'
+required:
+  - label
+  - value

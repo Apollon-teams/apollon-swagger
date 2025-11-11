@@ -1,0 +1,56 @@
+type: object
+properties:
+  reservation_datetime:
+    type: string
+    format: date-time
+    description: 予約日時（ISO8601形式）
+    example: "2025-11-15T20:00:00+09:00"
+  shimei_type:
+    type: string
+    description: 指名種別
+    enum: [photo, regular]
+    example: "photo"
+  extension:
+    type: string
+    description: 延長時間
+    enum: ["30", "60", "90"]
+    nullable: true
+    example: "60"
+  discount:
+    type: string
+    description: 店舗割引（店舗設定に応じる）
+    nullable: true
+    example: "A"
+  payment_method:
+    type: string
+    description: 支払い方法
+    enum: [unknown, cash, card]
+    example: "cash"
+  reservation_method:
+    type: string
+    description: 予約方法
+    enum: [line, x, instagram, other]
+    example: "line"
+  reservation_status:
+    type: string
+    description: ステータス
+    enum: [new, draft]
+    example: "new"
+  advertisement:
+    type: array
+    items:
+      type: string
+    description: 広告媒体（複数選択可）
+    example: ["x", "instagram"]
+  memo:
+    type: string
+    description: 備考（任意入力）
+    nullable: true
+    example: "常連様です。VIPルーム希望。"
+required:
+  - reservation_datetime
+  - shimei_type
+  - payment_method
+  - reservation_method
+  - reservation_status
+  - advertisement
