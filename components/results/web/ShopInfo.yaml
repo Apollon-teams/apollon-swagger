@@ -19,4 +19,9 @@ properties:
   image_url:
     type: string
     description: 店舗の画像
-    example: "ttps://example.com/images/shop1_1.jpg"
+    example: "https://example.com/images/shop1_1.jpg"
+required:
+  - shop_name
+  - business_hours
+  - location
+  - image_url
