@@ -1,0 +1,16 @@
+type: object
+properties:
+  today:
+    $ref: './SalesSummaryItem.yaml'
+    description: 今日の売上サマリ
+  thisWeek:
+    $ref: './SalesSummaryItem.yaml'
+    description: 今週の売上サマリ
+  thisMonth:
+    $ref: './SalesSummaryItem.yaml'
+    description: 今月の売上サマリ
+required:
+  - today
+  - thisWeek
+  - thisMonth
+description: 売上サマリ全体のレスポンス。

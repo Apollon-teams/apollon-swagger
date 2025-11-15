@@ -21,6 +21,91 @@ tags:
     description: キャスト専用管理
 
 paths:
+  /casts/{castId}/reservations/today:
+    get:
+      tags:
+        - Cast
+      summary: 今日の予約情報取得API
+      description: ログインしているキャストの今日の予約情報を取得します。
+      operationId: getTodaysReservations
+      parameters:
+        - $ref: "./components/parameters/cast/CastIdPath.yaml"
+      responses:
+        '200':
+          description: 正常系レスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TodaysReservations"
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /casts/{castId}/shifts/today:
+    get:
+      tags:
+        - Cast
+      summary: 今日の出勤情報取得API
+      description: ログインしているキャストの今日の出勤情報を取得します。
+      operationId: getTodaysShift
+      parameters:
+        - $ref: "./components/parameters/cast/CastIdPath.yaml"
+      responses:
+        '200':
+          description: 正常系レスポンス. 休みの場合、bodyはnullになります。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TodaysShift"
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /casts/{castId}/sales/summary:
+    get:
+      tags:
+        - Cast
+      summary: 売上サマリ取得API
+      description: ログインしているキャストの売上サマリを取得します。
+      operationId: getSalesSummary
+      parameters:
+        - $ref: "./components/parameters/cast/CastIdPath.yaml"
+      responses:
+        '200':
+          description: 正常系レスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesSummary"
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /web/shops/{shopId}/attendance-casts:
     get:
       tags:
@@ -275,9 +360,21 @@ components:
       $ref: "./components/results/cast/ReservationFormItem.yaml"
     ReservationFormItemOption:
       $ref: "./components/results/cast/ReservationFormItemOption.yaml"
+    ReservationToday:
+      $ref: "./components/models/cast/ReservationToday.yaml"
+    SalesSummary:
+      $ref: "./components/models/cast/SalesSummary.yaml"
+    SalesSummaryItem:
+      $ref: "./components/models/cast/SalesSummaryItem.yaml"
     ShopInfo:
       $ref: "./components/results/web/ShopInfo.yaml"
+    TodaysReservations:
+      $ref: "./components/models/cast/TodaysReservations.yaml"
+    TodaysShift:
+      $ref: "./components/models/cast/TodaysShift.yaml"
   parameters:
+    CastIdPath:
+      $ref: "./components/parameters/cast/CastIdPath.yaml"
     CastQueryId:
       $ref: "./components/parameters/cast/CastId.yaml"
     ShopQueryId:

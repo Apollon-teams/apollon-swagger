@@ -1,0 +1,16 @@
+type: object
+properties:
+  count:
+    type: integer
+    format: int32
+    description: 本日の予約件数
+    example: 3
+  reservations:
+    type: array
+    items:
+      $ref: './ReservationToday.yaml'
+    description: 本日の予約一覧
+required:
+  - count
+  - reservations
+description: 今日の予約一覧のレスポンス。

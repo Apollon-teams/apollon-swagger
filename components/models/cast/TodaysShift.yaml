@@ -1,0 +1,16 @@
+type: object
+properties:
+  startTime:
+    type: string
+    format: date-time
+    description: 出勤開始時刻
+  endTime:
+    type: string
+    format: date-time
+    description: 出勤終了時刻
+  status:
+    type: string
+    description: 出勤ステータス（"通常" / "遅番" など）
+    example: 通常出勤
+nullable: true
+description: キャストの今日の出勤情報。休みの場合、このオブジェクトはnullになります。
