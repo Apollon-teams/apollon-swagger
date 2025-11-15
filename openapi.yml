@@ -29,7 +29,7 @@ paths:
       description: ログインしているキャストの今日の予約情報を取得します。
       operationId: getTodaysReservations
       parameters:
-        - $ref: "./components/parameters/cast/CastIdPath.yaml"
+        - $ref: "#/components/parameters/CastIdPath"
       responses:
         '200':
           description: 正常系レスポンス
@@ -57,7 +57,7 @@ paths:
       description: ログインしているキャストの今日の出勤情報を取得します。
       operationId: getTodaysShift
       parameters:
-        - $ref: "./components/parameters/cast/CastIdPath.yaml"
+        - $ref: "#/components/parameters/CastIdPath"
       responses:
         '200':
           description: 正常系レスポンス. 休みの場合、bodyはnullになります。
@@ -85,7 +85,7 @@ paths:
       description: ログインしているキャストの売上サマリを取得します。
       operationId: getSalesSummary
       parameters:
-        - $ref: "./components/parameters/cast/CastIdPath.yaml"
+        - $ref: "#/components/parameters/CastIdPath"
       responses:
         '200':
           description: 正常系レスポンス
@@ -113,8 +113,8 @@ paths:
       summary: アテンダンスキャスト一覧取得API
       description: 指定された店舗と日付における出勤キャストの一覧を取得します。
       parameters:
-        - $ref: "./components/parameters/web/ShopId.yaml"
-        - $ref: "./components/parameters/web/Date.yaml"
+        - $ref: "#/components/parameters/ShopId"
+        - $ref: "#/components/parameters/Date"
       responses:
         "200":
           description: 成功
@@ -138,7 +138,7 @@ paths:
       summary: 店舗情報取得API
       description: 指定したIDの店舗情報を取得します。
       parameters:
-        - $ref: "./components/parameters/web/ShopId.yaml"
+        - $ref: "#/components/parameters/ShopId"
       responses:
         "200":
           description: 成功
@@ -160,7 +160,7 @@ paths:
       summary: 料金情報取得API
       description: 指定した店舗の料金情報を取得します。
       parameters:
-        - $ref: "./components/parameters/web/ShopId.yaml"
+        - $ref: "#/components/parameters/ShopId"
       responses:
         "200":
           description: 成功
@@ -182,7 +182,7 @@ paths:
       summary: キャスト情報詳細取得API
       description: 指定したIDのキャストの詳細情報を取得します。
       parameters:
-        - $ref: "./components/parameters/web/CastId.yaml"
+        - $ref: "#/components/parameters/WebCastId"
         - name: shopId
           in: query
           required: false
@@ -339,46 +339,927 @@ paths:
 components:
   schemas:
     AttendanceCast:
-      $ref: "./components/results/web/AttendanceCast.yaml"
+      type: object
+      required:
+        - cast_id
+        - cast_name
+        - profile_image_url
+        - age
+        - height
+        - bust_size
+        - available_start_times
+        - work_schedule
+        - area
+      properties:
+        cast_id:
+          type: string
+          description: キャストID
+          example: 'test1'
+        cast_name:
+          type: string
+          description: キャスト名(源氏名)
+          example: 'さくら'
+        profile_image_url:
+          type: string
+          description: キャスト画像パス (1枚目に登録してある画像のみ)
+          example: 'https://example.com/images/cast1_1.jpg'
+        age:
+          type: integer
+          description: 年齢
+          example: 25
+        height:
+          type: integer
+          description: 身長
+          example: 160
+        bust_size:
+          type: string
+          description: バスト
+          enum:
+            - 'A'
+            - 'B'
+            - 'C'
+            - 'D'
+            - 'E'
+            - 'F'
+            - 'G'
+            - 'H'
+            - 'I'
+            - 'J'
+            - 'K'
+          example: 'D'
+        available_start_times:
+          type: array
+          items:
+            type: string
+            format: time
+          description: 予約可能な開始時刻のリスト（5分単位）
+          example: ['19:00', '19:05', '19:10']
+        work_schedule:
+          type: string
+          description: 出勤時間
+          example: '19:00 - 23:00'
+        x_account:
+          type: string
+          description: XアカウントのURL
+          example: 'https://x.com/cast_sakura'
+        area:
+          type: string
+          description: エリア
+          example: 'shibuya'
     CastDetail:
-      $ref: "./components/results/web/CastDetail.yaml"
+      type: object
+      required:
+        - cast_id
+        - cast_name
+        - image_urls
+        - age
+        - height
+        - bust_size
+        - x_account
+        - area
+        - schedule
+        - shop_comment
+        - cast_message
+      properties:
+        cast_id:
+          type: string
+          description: キャストID
+          example: 'test1'
+        cast_name:
+          type: string
+          description: キャスト名(源氏名)
+          example: 'さくら'
+        image_urls:
+          type: array
+          items:
+            type: string
+          description: キャスト画像パス (複数の画像すべて)
+          example: ['https://example.com/images/cast1_1.jpg', 'https://example.com/images/cast1_2.jpg']
+        age:
+          type: integer
+          description: 年齢
+          example: 25
+        height:
+          type: integer
+          description: 身長
+          example: 160
+        bust_size:
+          type: string
+          description: バスト
+          enum:
+            - 'A'
+            - 'B'
+            - 'C'
+            - 'D'
+            - 'E'
+            - 'F'
+            - 'G'
+            - 'H'
+            - 'I'
+            - 'J'
+            - 'K'
+          example: 'D'
+        x_account:
+          type: string
+          description: XアカウントのURL
+          example: 'https://x.com/cast_sakura'
+        area:
+          type: string
+          description: エリア
+          example: 'shibuya'
+        schedule:
+          type: array
+          description: 2週間分の出勤スケジュール
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+                example: '2025-10-22'
+              availability:
+                type: string
+                example: '19:00 - 23:00'
+        shop_comment:
+          type: string
+          description: お店のコメント
+          example: '当店No.1の癒し系キャストです！'
+        cast_message:
+          type: string
+          description: キャストのメッセージ
+          example: 'はじめまして、さくらです。素敵な時間を過ごしましょう！'
     CastReservation:
-      $ref: "./components/models/cast/CastReservation.yaml"
+      type: object
+      properties:
+        store_id:
+          type: string
+          description: 店舗ID
+          example: "1"
+        cast_id:
+          type: string
+          description: キャストID（ログイン済みでも送信）
+          example: "12"
+        reservation_datetime:
+          type: string
+          format: date-time
+          description: 予約日時（ISO8601形式）
+          example: "2025-11-15T20:00:00+09:00"
+        shimei_type:
+          type: string
+          description: 指名種別
+          enum: [photo, regular]
+          example: "photo"
+        extension:
+          type: string
+          description: 延長時間
+          enum: ["30", "60", "90"]
+          nullable: true
+          example: "60"
+        discount:
+          type: string
+          description: 店舗割引（店舗設定に応じる）
+          nullable: true
+          example: "A"
+        payment_method:
+          type: string
+          description: 支払い方法
+          enum: [unknown, cash, card]
+          example: "cash"
+        reservation_method:
+          type: string
+          description: 予約方法
+          enum: [line, x, instagram, other]
+          example: "line"
+        reservation_status:
+          type: string
+          description: ステータス
+          enum: [new, draft]
+          example: "new"
+        advertisement:
+          type: array
+          items:
+            type: string
+          description: 広告媒体（複数選択可）
+          example: ["x", "instagram"]
+        treatment_note:
+          type: string
+          description: 施術メモ
+          nullable: true
+          example: "いい人"
+        request:
+          type: string
+          description: ご要望
+          nullable: true
+          example: "静かに過ごしたい"
+      required:
+        - store_id
+        - cast_id
+        - reservation_datetime
+        - shimei_type
+        - payment_method
+        - reservation_method
+        - reservation_status
+        - advertisement
     CreatedCastReservation:
-      $ref: "./components/results/cast/CreatedCastReservation.yaml"
+      type: object
+      properties:
+        reservation_id:
+          type: string
+          description: 予約ID
+          example: "res_98231"
+        store_id:
+          type: string
+          description: 店舗ID
+          example: "1"
+        cast_id:
+          type: string
+          description: キャストID
+          example: "12"
+        reservation_datetime:
+          type: string
+          format: date-time
+          description: 予約日時（ISO8601）
+          example: "2025-11-15T20:00:00+09:00"
+        status:
+          type: string
+          description: 登録結果
+          enum: [created, updated]
+          example: "created"
+        created_at:
+          type: string
+          format: date-time
+          description: 登録日時
+          example: "2025-11-10T18:00:00+09:00"
+      required:
+        - reservation_id
+        - store_id
+        - cast_id
+        - reservation_datetime
+        - status
+        - created_at
     CreatedCastReservationResponse:
-      $ref: "./components/results/cast/CreatedCastReservationResponse.yaml"
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            reservation_id:
+              type: string
+              description: 予約ID
+              example: "res_98231"
+            store_id:
+              type: string
+              description: 店舗ID
+              example: "1"
+            cast_id:
+              type: string
+              description: キャストID
+              example: "12"
+            reservation_datetime:
+              type: string
+              format: date-time
+              description: 予約日時（ISO8601）
+              example: "2025-11-15T20:00:00+09:00"
+            status:
+              type: string
+              description: 登録結果
+              enum: [created, updated]
+              example: "created"
+            created_at:
+              type: string
+              format: date-time
+              description: 登録日時
+              example: "2025-11-10T18:00:00+09:00"
+          required:
+            - reservation_id
+            - store_id
+            - cast_id
+            - reservation_datetime
+            - status
+            - created_at
+      required:
+        - data
     Error:
-      $ref: "./components/models/common/Error.yaml"
+      type: object
+      properties:
+        code:
+          type: string
+          description: エラーコード
+          example: "NOT_FOUND"
+        message:
+          type: string
+          description: エラーメッセージ
+          example: "リソースが見つかりませんでした。"
+      required:
+        - code
+        - message
     PriceInfo:
-      $ref: "./components/results/web/PriceInfo.yaml"
+      type: object
+      properties:
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              duration:
+                type: string
+                description: コース時間
+                example: '60分'
+              price:
+                type: integer
+                description: 料金
+                example: 10000
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: オプション名
+                example: '延長30分'
+              price:
+                type: integer
+                description: 料金
+                example: 5000
+        nomination_fees:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: 指名種別
+                example: '写真指名'
+              price:
+                type: integer
+                description: 料金
+                example: 1000
     Reservation:
-      $ref: "./components/models/web/Reservation.yaml"
+      type: object
+      properties:
+        customer_name:
+          type: string
+          description: お客様の名前
+          example: '山田 太郎'
+        phone_number:
+          type: string
+          description: 電話番号
+          example: '090-1234-5678'
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+          example: 'taro.yamada@example.com'
+        requests:
+          type: string
+          description: ご要望
+          example: '特にありません'
+        reservation_datetime:
+          type: string
+          format: date-time
+          description: 予約日時
+          example: '2025-10-26T19:00:00+09:00'
+        cast_name:
+          type: string
+          description: 指名キャスト名
+          example: 'さくら'
+        course:
+          type: string
+          description: コース
+          example: 'リフレクソロジー60分'
+        options:
+          type: array
+          items:
+            type: string
+          description: オプション
+          example: ['延長10分', 'アロマオイル']
+        total_fee:
+          type: integer
+          description: 合計料金
+          example: 8000
     ReservationForm:
-      $ref: "./components/results/cast/ReservationForm.yaml"
+      type: object
+      properties:
+        data:
+          type: array
+          description: フォーム項目リスト
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: 項目識別子
+                example: "extension"
+              label:
+                type: string
+                description: 表示ラベル
+                example: "延長料金"
+              type:
+                type: string
+                description: 入力タイプ（text, radio, select, datetime, image等）
+                example: "radio"
+              value:
+                type: string
+                description: 初期値
+                nullable: true
+              required:
+                type: boolean
+                description: 必須かどうか
+                example: false
+              options:
+                type: array
+                description: 選択肢リスト（radio/selectの場合のみ）
+                items:
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                      description: 選択肢表示名
+                      example: '30分'
+                    value:
+                      type: string
+                      description: 選択肢値
+                      example: '30'
+                  required:
+                    - label
+                    - value
+                nullable: true
+            required:
+              - key
+              - label
+              - type
+              - required
+          example:
+            - key: "reservation_datetime"
+              label: "予約可能日時"
+              type: "datetime"
+              required: true
+              options:
+                - "2025-11-10T10:00:00Z"
+                - "2025-11-10T10:05:00Z"
+                - "2025-11-10T10:10:00Z"
+            - key: "cast_name"
+              label: "担当キャスト"
+              type: "text"
+              required: true
+              value: "相川りな"
+            - key: "nomination"
+              label: "指名"
+              type: "radio"
+              required: false
+              options:
+                - label: "写真指名"
+                  value: "hime_photo"
+                - label: "本指名"
+                  value: "hime_regular"
+            - key: "extension"
+              label: "延長料金"
+              type: "radio"
+              required: false
+              options:
+                - label: "30分"
+                  value: "30"
+                - label: "60分"
+                  value: "60"
+                - label: "90分"
+                  value: "90"
+            - key: "discount"
+              label: "店舗割引"
+              type: "radio"
+              required: false
+              options:
+                - label: "割引A"
+                  value: "A"
+                - label: "割引B"
+                  value: "B"
+            - key: "payment_method"
+              label: "支払い方法"
+              type: "radio"
+              required: true
+              options:
+                - label: "現金"
+                  value: "cash"
+                - label: "カード"
+                  value: "card"
+            - key: "reservation_method"
+              label: "予約方法"
+              type: "radio"
+              required: true
+              options:
+                - label: "LINE"
+                  value: "line"
+                - label: "X"
+                  value: "x"
+                - label: "Instagram"
+                  value: "instagram"
+            - key: "advertisement"
+              label: "広告"
+              type: "select"
+              required: false
+              options:
+                - label: "X"
+                  value: "x"
+                - label: "Instagram"
+                  value: "instagram"
+                - label: "TikTok"
+                  value: "tiktok"
+                - label: "HP"
+                  value: "hp"
+            - key: "request"
+              label: "ご要望"
+              type: "textarea"
+              required: false
+              value: ""
+            - key: "treatment_note"
+              label: "施術メモ"
+              type: "textarea"
+              required: false
+              value: ""
+            - key: "reservation_status"
+              label: "予約ステータス"
+              type: "radio"
+              required: true
+              options:
+                - label: "新規予約"
+                  value: "new"
+                - label: "下書き"
+                  value: "draft"
+      required:
+        - data
     ReservationFormItem:
-      $ref: "./components/results/cast/ReservationFormItem.yaml"
+      type: object
+      properties:
+        key:
+          type: string
+          description: 項目識別子
+          example: "extension"
+        label:
+          type: string
+          description: 表示ラベル
+          example: "延長料金"
+        type:
+          type: string
+          description: 入力タイプ（text, radio, select, datetime, image等）
+          example: "radio"
+        value:
+          type: string
+          description: 初期値
+          nullable: true
+        required:
+          type: boolean
+          description: 必須かどうか
+          example: false
+        options:
+          type: array
+          description: 選択肢リスト（radio/selectの場合のみ）
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+                description: 選択肢表示名
+                example: '30分'
+              value:
+                type: string
+                description: 選択肢値
+                example: '30'
+            required:
+              - label
+              - value
+          nullable: true
+      required:
+        - key
+        - label
+        - type
+        - required
     ReservationFormItemOption:
-      $ref: "./components/results/cast/ReservationFormItemOption.yaml"
+      type: object
+      properties:
+        label:
+          type: string
+          description: 選択肢表示名
+          example: '30分'
+        value:
+          type: string
+          description: 選択肢値
+          example: '30'
+      required:
+        - label
+        - value
     ReservationToday:
-      $ref: "./components/models/cast/ReservationToday.yaml"
+      type: object
+      properties:
+        reservationId:
+          type: string
+          description: 予約ID
+          example: r1
+        startTime:
+          type: string
+          format: date-time
+          description: 予約開始時刻
+        endTime:
+          type: string
+          format: date-time
+          description: 予約終了時刻
+        customerName:
+          type: string
+          description: 顧客名（イニシャル・匿名も可）
+          nullable: true
+          example: 山田
+        menu:
+          type: string
+          description: メニュー／コース名
+          example: 60分コース
+        options:
+          type: array
+          items:
+            type: string
+          description: オプション一覧（例: 追加メニュー）
+          nullable: true
+          example: ["ヘッドスパ", "指名料"]
+        notes:
+          type: string
+          description: 施術メモ
+          nullable: true
+          example: 肌荒れ対応
+      required:
+        - reservationId
+        - startTime
+        - endTime
+        - menu
+      description: 本日の予約一件分の詳細情報。
     SalesSummary:
-      $ref: "./components/models/cast/SalesSummary.yaml"
+      type: object
+      properties:
+        today:
+          type: object
+          properties:
+            current:
+              type: number
+              format: double
+              description: 現在期間の売上
+            previous:
+              type: number
+              format: double
+              description: 前期間の売上
+              nullable: true
+            diff:
+              type: number
+              format: double
+              description: 差分 (current - previous)
+              nullable: true
+            ratio:
+              type: number
+              format: float
+              description: 対比率 ( (current - previous) / previous )
+              nullable: true
+          required:
+            - current
+          description: 売上サマリの単一期間（今日・今週・今月）のデータ。
+        thisWeek:
+          type: object
+          properties:
+            current:
+              type: number
+              format: double
+              description: 現在期間の売上
+            previous:
+              type: number
+              format: double
+              description: 前期間の売上
+              nullable: true
+            diff:
+              type: number
+              format: double
+              description: 差分 (current - previous)
+              nullable: true
+            ratio:
+              type: number
+              format: float
+              description: 対比率 ( (current - previous) / previous )
+              nullable: true
+          required:
+            - current
+          description: 売上サマリの単一期間（今日・今週・今月）のデータ。
+        thisMonth:
+          type: object
+          properties:
+            current:
+              type: number
+              format: double
+              description: 現在期間の売上
+            previous:
+              type: number
+              format: double
+              description: 前期間の売上
+              nullable: true
+            diff:
+              type: number
+              format: double
+              description: 差分 (current - previous)
+              nullable: true
+            ratio:
+              type: number
+              format: float
+              description: 対比率 ( (current - previous) / previous )
+              nullable: true
+          required:
+            - current
+          description: 売上サマリの単一期間（今日・今週・今月）のデータ。
+      required:
+        - today
+        - thisWeek
+        - thisMonth
+      description: 売上サマリ全体のレスポンス。
     SalesSummaryItem:
-      $ref: "./components/models/cast/SalesSummaryItem.yaml"
+      type: object
+      properties:
+        current:
+          type: number
+          format: double
+          description: 現在期間の売上
+        previous:
+          type: number
+          format: double
+          description: 前期間の売上
+          nullable: true
+        diff:
+          type: number
+          format: double
+          description: 差分 (current - previous)
+          nullable: true
+        ratio:
+          type: number
+          format: float
+          description: 対比率 ( (current - previous) / previous )
+          nullable: true
+      required:
+        - current
+      description: 売上サマリの単一期間（今日・今週・今月）のデータ。
     ShopInfo:
-      $ref: "./components/results/web/ShopInfo.yaml"
+      type: object
+      properties:
+        shop_name:
+          type: string
+          description: 店舗名
+          example: "Apollon 銀座店"
+        website_url:
+          type: string
+          description: HPリンクURL
+          example: "https://example.com/ginza"
+        business_hours:
+          type: string
+          description: 営業時間
+          example: "18:00 - 26:00"
+        location:
+          type: string
+          description: 最寄り(地域)
+          example: "銀座"
+        image_url:
+          type: string
+          description: 店舗の画像
+          example: "https://example.com/images/shop1_1.jpg"
+      required:
+        - shop_name
+        - business_hours
+        - location
+        - image_url
     TodaysReservations:
-      $ref: "./components/models/cast/TodaysReservations.yaml"
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+          description: 本日の予約件数
+          example: 3
+        reservations:
+          type: array
+          items:
+            type: object
+            properties:
+              reservationId:
+                type: string
+                description: 予約ID
+                example: r1
+              startTime:
+                type: string
+                format: date-time
+                description: 予約開始時刻
+              endTime:
+                type: string
+                format: date-time
+                description: 予約終了時刻
+              customerName:
+                type: string
+                description: 顧客名（イニシャル・匿名も可）
+                nullable: true
+                example: 山田
+              menu:
+                type: string
+                description: メニュー／コース名
+                example: 60分コース
+              options:
+                type: array
+                items:
+                  type: string
+                description: オプション一覧（例: 追加メニュー）
+                nullable: true
+                example: ["ヘッドスパ", "指名料"]
+              notes:
+                type: string
+                description: 施術メモ
+                nullable: true
+                example: 肌荒れ対応
+            required:
+              - reservationId
+              - startTime
+              - endTime
+              - menu
+            description: 本日の予約一件分の詳細情報。
+          description: 本日の予約一覧
+      required:
+        - count
+        - reservations
+      description: 今日の予約一覧のレスポンス。
     TodaysShift:
-      $ref: "./components/models/cast/TodaysShift.yaml"
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          description: 出勤開始時刻
+        endTime:
+          type: string
+          format: date-time
+          description: 出勤終了時刻
+        status:
+          type: string
+          description: 出勤ステータス（"通常" / "遅番" など）
+          example: 通常出勤
+      nullable: true
+      description: キャストの今日の出勤情報。休みの場合、このオブジェクトはnullになります。
   parameters:
+    CastId:
+      name: cast_id
+      in: query
+      description: キャストID
+      required: true
+      schema:
+        type: string
+        example: "cast001"
     CastIdPath:
-      $ref: "./components/parameters/cast/CastIdPath.yaml"
+      name: castId
+      in: path
+      description: キャストID
+      required: true
+      schema:
+        type: string
+        example: "cast001"
     CastQueryId:
-      $ref: "./components/parameters/cast/CastId.yaml"
+      name: cast_id
+      in: query
+      description: キャストID
+      required: true
+      schema:
+        type: string
+        example: "cast001"
+    Date:
+      name: date
+      in: query
+      required: true
+      description: 日付 (YYYY-MM-DD)
+      schema:
+        type: string
+        format: date
+        example: '2025-10-22'
+    ShopId:
+      name: shopId
+      in: path
+      required: true
+      description: 店舗ID
+      schema:
+        type: string
+        example: '1014'
     ShopQueryId:
-      $ref: "./components/parameters/cast/ShopId.yaml"
+      name: shop_id
+      in: query
+      description: 店舗ID
+      required: true
+      schema:
+        type: string
+        example: "shop001"
+    WebCastId:
+      name: castId
+      in: path
+      required: true
+      description: キャストID
+      schema:
+        type: string
+        example: 'c_123'
   securitySchemes:
     BearerAuth:
-      $ref: "./components/securitySchemes/BearerAuth.yaml"
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "認証トークンを`Authorization`ヘッダーに`Bearer`スキーマで設定します。"
