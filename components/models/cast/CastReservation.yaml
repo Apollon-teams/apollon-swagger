@@ -1,5 +1,13 @@
 type: object
 properties:
+  store_id:
+    type: string
+    description: 店舗ID
+    example: "1"
+  cast_id:
+    type: string
+    description: キャストID（ログイン済みでも送信）
+    example: "12"
   reservation_datetime:
     type: string
     format: date-time
@@ -42,11 +50,6 @@ properties:
       type: string
     description: 広告媒体（複数選択可）
     example: ["x", "instagram"]
-  memo:
-    type: string
-    description: 備考（任意入力）
-    nullable: true
-    example: "常連様です。VIPルーム希望。"
   treatment_note:
     type: string
     description: 施術メモ
@@ -58,6 +61,8 @@ properties:
     nullable: true
     example: "静かに過ごしたい"
 required:
+  - store_id
+  - cast_id
   - reservation_datetime
   - shimei_type
   - payment_method
