@@ -164,9 +164,8 @@ paths:
         - Cast
       summary: 予約情報送信API
       description: キャストが予約情報を登録します。
-      parameters:
-        - $ref: "#/components/parameters/ShopQueryId"
-        - $ref: "#/components/parameters/CastQueryId"
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
