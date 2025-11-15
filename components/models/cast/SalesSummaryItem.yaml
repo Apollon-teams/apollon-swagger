@@ -1,0 +1,27 @@
+type: object
+properties:
+  current:
+    type: number
+    format: double
+    description: 現在期間の売上
+  previous:
+    type: number
+    format: double
+    description: 前期間の売上
+    nullable: true
+  diff:
+    type: number
+    format: double
+    description: 差分 (current - previous)
+    nullable: true
+  ratio:
+    type: number
+    format: float
+    description: 対比率 ( (current - previous) / previous )
+    nullable: true
+required:
+  - current
+  - previous
+  - diff
+  - ratio
+description: 売上サマリの単一期間（今日・今週・今月）のデータ。

@@ -1,0 +1,41 @@
+type: object
+properties:
+  reservationId:
+    type: string
+    description: 予約ID
+    example: r1
+  startTime:
+    type: string
+    format: date-time
+    description: 予約開始時刻
+  endTime:
+    type: string
+    format: date-time
+    description: 予約終了時刻
+  customerName:
+    type: string
+    description: 顧客名（イニシャル・匿名も可）
+    nullable: true
+    example: 山田
+  menu:
+    type: string
+    description: メニュー／コース名
+    example: 60分コース
+  options:
+    type: array
+    items:
+      type: string
+    description: オプション一覧（例: 追加メニュー）
+    nullable: true
+    example: ["ヘッドスパ", "指名料"]
+  notes:
+    type: string
+    description: 施術メモ
+    nullable: true
+    example: 肌荒れ対応
+required:
+  - reservationId
+  - startTime
+  - endTime
+  - menu
+description: 本日の予約一件分の詳細情報。
