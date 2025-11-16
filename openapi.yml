@@ -336,8 +336,63 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /auth/precheck:
+    post:
+      tags:
+        - Cast
+      summary: ログイン事前チェック API
+      description: ログイン前に行うチェックAPIです。
+      operationId: castLoginPrecheck
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CastLoginPrecheckRequest"
+      responses:
+        '200':
+          description: 正常系レスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CastLoginPrecheckResponse"
+        '400':
+          description: Bad Request (入力不足)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "emailAddress or castId is required"
+        '404':
+          description: Not Found (店舗にユーザが存在しない)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "User not found for the store"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+
 components:
   schemas:
+    CastLoginPrecheckRequest:
+      $ref: "./components/models/cast/CastLoginPrecheckRequest.yaml"
+    CastLoginPrecheckResponse:
+      $ref: "./components/models/cast/CastLoginPrecheckResponse.yaml"
     AttendanceCast:
       type: object
       required:
