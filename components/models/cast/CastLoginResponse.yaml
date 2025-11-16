@@ -1,0 +1,24 @@
+type: object
+description: キャストログインレスポンス
+properties:
+  isSuccess:
+    type: boolean
+    description: ログイン成功フラグ
+    example: true
+  accessToken:
+    type: string
+    description: アクセストークン（JWT）
+    example: xxxxx.yyyyy.zzzzz
+  refreshToken:
+    type: string
+    description: リフレッシュトークン
+    example: rrrrr.sssss.ttttt
+  userId:
+    type: string
+    description: Supabase Auth のユーザーID
+    example: a1b2c3d4e5
+required:
+  - isSuccess
+  - accessToken
+  - refreshToken
+  - userId

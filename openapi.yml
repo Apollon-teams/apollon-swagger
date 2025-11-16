@@ -386,9 +386,80 @@ paths:
                   error:
                     type: string
                     example: "Internal server error"
-
-components:
+  
+  /auth/login:
+    post:
+      tags:
+        - Cast
+      summary: キャストログイン API
+      description: |-
+        キャストがログインするためのAPIです。
+        メールアドレスまたはキャストIDのいずれかを使用してログインします。
+      operationId: castLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CastLoginRequest'
+        required: true
+      responses:
+        '200':
+          description: ログイン成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CastLoginResponse'
+        '400':
+          description: |-
+            必須入力不足
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "storeId and (emailAddress or castId) and password are required"
+        '401':
+          description: パスワード不一致
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "Invalid password"
+        '404':
+          description: ユーザーが存在しない
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "User not found for the store"
+        '500':
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "Internal server error"
+  components:
   schemas:
+    CastLoginRequest:
+      $ref: "./components/models/cast/CastLoginRequest.yaml"
+    CastLoginResponse:
+      $ref: "./components/models/cast/CastLoginResponse.yaml"
     CastLoginPrecheckRequest:
       $ref: "./components/models/cast/CastLoginPrecheckRequest.yaml"
     CastLoginPrecheckResponse:

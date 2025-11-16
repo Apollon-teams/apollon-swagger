@@ -1,0 +1,27 @@
+type: object
+description: キャストログインリクエスト
+properties:
+  storeId:
+    type: string
+    description: 店舗ID
+    example: '1001'
+  emailAddress:
+    type: string
+    description: ログイン用メールアドレス
+    example: 'test@example.com'
+  castId:
+    type: string
+    description: キャストID（メールの代替として使用）
+    example: 'cst-00032'
+  password:
+    type: string
+    description: パスワード
+    example: 'abc12345'
+required:
+  - storeId
+  - password
+oneOf:
+  - required:
+      - emailAddress
+  - required:
+      - castId
