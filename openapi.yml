@@ -454,7 +454,8 @@ paths:
                     type: string
               example:
                 error: "Internal server error"
-  components:
+
+components:
   schemas:
     CastLoginRequest:
       $ref: "./components/models/cast/CastLoginRequest.yaml"
