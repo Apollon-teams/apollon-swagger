@@ -1,0 +1,24 @@
+type: object
+properties:
+  storeId:
+    type: string
+    description: 店舗ID
+    example: "1001"
+required:
+  - storeId
+oneOf:
+  - required:
+      - emailAddress
+    properties:
+      emailAddress:
+        type: string
+        format: email
+        description: ログイン用メールアドレス
+        example: "test@example.com"
+  - required:
+      - castId
+    properties:
+      castId:
+        type: string
+        description: キャストID（メールの代替として使用）
+        example: "cst-00032"
