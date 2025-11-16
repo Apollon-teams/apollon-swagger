@@ -17,8 +17,18 @@ properties:
     type: string
     description: Supabase Auth のユーザーID
     example: a1b2c3d4e5
+  storeId:
+    type: string
+    description: 店舗ID
+    example: '1001'
+  castId:
+    type: string
+    description: キャストID
+    example: 'cst-00123'
 required:
   - isSuccess
   - accessToken
   - refreshToken
   - userId
+  - storeId
+  - castId

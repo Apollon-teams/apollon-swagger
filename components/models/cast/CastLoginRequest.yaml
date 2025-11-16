@@ -7,11 +7,11 @@ properties:
     example: '1001'
   emailAddress:
     type: string
-    description: ログイン用メールアドレス
+    description: メールアドレス
     example: 'test@example.com'
   castId:
     type: string
-    description: キャストID（メールの代替として使用）
+    description: キャストID
     example: 'cst-00032'
   password:
     type: string
