@@ -145,7 +145,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ShopInfo"
+                $ref: "#/components/schemas/StoreSummary"
         "404":
           description: 店舗が見つかりません
           content:
@@ -1224,6 +1224,8 @@ components:
       required:
         - current
       description: 売上サマリの単一期間（今日・今週・今月）のデータ。
+    StoreSummary:
+      $ref: "./components/models/web/StoreSummary.yaml"
     ShopInfo:
       type: object
       properties:

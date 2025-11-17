@@ -1,0 +1,44 @@
+type: object
+description: 店舗サマリー情報
+properties:
+  name:
+    type: string
+    description: 店舗名
+    example: "Apollon 銀座店"
+  catchPhrase:
+    type: string
+    description: キャッチフレーズ
+    example: "最高の癒しをお届けします"
+  description:
+    type: string
+    description: 店舗詳細説明
+    example: "銀座の中心にある落ち着いた雰囲気のサロンです。"
+  address:
+    type: string
+    description: 店舗住所
+    example: "東京都中央区銀座1-1-1"
+  access:
+    type: string
+    description: アクセス情報
+    example: "銀座駅A1出口より徒歩3分"
+  businessHours:
+    type: string
+    description: 営業時間
+    example: "18:00 - 26:00"
+  phoneNumber:
+    type: string
+    description: 電話番号
+    example: "03-1234-5678"
+  lineId:
+    type: string
+    description: LINE ID
+    example: "@apollon_ginza"
+required:
+  - name
+  - catchPhrase
+  - description
+  - address
+  - access
+  - businessHours
+  - phoneNumber
+  - lineId
