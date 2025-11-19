@@ -1,0 +1,37 @@
+type: object
+properties:
+  isSuccess:
+    type: boolean
+    description: 成功フラグ
+    example: true
+  userId:
+    type: string
+    description: Supabase Auth のユーザーID
+    example: 'ae93f1c2-xxxx-xxxx-xxxx-f0e85c4dd111'
+  storeId:
+    type: string
+    description: 店舗ID
+    example: '1001'
+  castId:
+    type: string
+    description: キャストID
+    example: 'cst-00123'
+  emailAddress:
+    type: string
+    description: メールアドレス（Auth プロバイダから取得）
+    nullable: true
+    example: 'test@example.com'
+  authProvider:
+    type: string
+    description: '`email` / `google` / `apple`'
+    enum:
+      - email
+      - google
+      - apple
+    example: 'email'
+required:
+  - isSuccess
+  - userId
+  - storeId
+  - castId
+  - authProvider

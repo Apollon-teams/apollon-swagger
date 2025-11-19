@@ -1,0 +1,11 @@
+type: object
+properties:
+  accessToken:
+    type: string
+    description: JWT アクセストークン
+  refreshToken:
+    type: string
+    description: リフレッシュトークン
+required:
+  - accessToken
+  - refreshToken
