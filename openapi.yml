@@ -508,6 +508,8 @@ components:
       required:
         - count
         - reservations
+    SalesSummaryItem:
+      $ref: "./components/models/cast/SalesSummaryItem.yaml"
     SalesSummary:
       type: object
       properties:
