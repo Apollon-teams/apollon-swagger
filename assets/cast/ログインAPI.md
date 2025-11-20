@@ -43,6 +43,7 @@ POST
 | userId | string | Supabase Auth のユーザーID | ✕ |
 | storeId | string | 店舗ID | ✕ |
 | castId | string | キャストID | ✕ |
+| castName | string | キャスト名 | ✕ |
 
 ### **レスポンス例**
 
@@ -53,7 +54,8 @@ POST
   "refreshToken": "rrrrr.sssss.ttttt",
   "userId": "a1b2c3d4e5",
   "storeId": "1001",
-  "castId": "cst-00123"
+  "castId": "cst-00123",
+  "castName": "キャストA"
 }
 
 ```
