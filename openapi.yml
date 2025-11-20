@@ -458,6 +458,10 @@ components:
           type: string
           description: キャストID
           example: 'cst-00123'
+        castName:
+          type: string
+          description: キャスト名
+          example: 'キャストA'
       required:
         - isSuccess
         - accessToken
@@ -465,6 +469,7 @@ components:
         - userId
         - storeId
         - castId
+        - castName
     ResetPasswordRequest:
       type: object
       properties:
