@@ -139,7 +139,6 @@ paths:
       operationId: getSalesSummary
       parameters:
         - $ref: "#/components/parameters/CastIdPath"
-        - $ref: "#/components/parameters/PeriodQuery"
       security:
         - BearerAuth: []
       responses:
