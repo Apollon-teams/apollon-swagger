@@ -1,0 +1,22 @@
+type: object
+properties:
+  reservationId:
+    type: string
+  customerName:
+    type: string
+  reservationTime:
+    type: string
+    format: date-time
+  course:
+    type: string
+  totalFee:
+    type: integer
+  status:
+    type: string
+required:
+  - reservationId
+  - customerName
+  - reservationTime
+  - course
+  - totalFee
+  - status

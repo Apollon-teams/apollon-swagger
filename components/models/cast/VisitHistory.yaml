@@ -1,0 +1,15 @@
+type: object
+properties:
+  visitDate:
+    type: string
+    format: date
+  course:
+    type: string
+  totalFee:
+    type: integer
+  notes:
+    type: string
+required:
+  - visitDate
+  - course
+  - totalFee

@@ -1,0 +1,8 @@
+type: object
+properties:
+  isSuccess:
+    type: boolean
+    description: 成功フラグ
+    example: true
+required:
+  - isSuccess

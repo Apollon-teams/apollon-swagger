@@ -1,0 +1,8 @@
+name: startDate
+in: query
+description: '取得開始日 (YYYY-MM-DD)'
+required: true
+schema:
+  type: string
+  format: date
+  example: '2025-01-01'

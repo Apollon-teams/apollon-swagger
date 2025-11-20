@@ -1,0 +1,30 @@
+type: object
+properties:
+  customerId:
+    type: string
+  name:
+    type: string
+  kana:
+    type: string
+  phone:
+    type: string
+  email:
+    type: string
+    format: email
+  firstVisitDate:
+    type: string
+    format: date
+  lastVisitDate:
+    type: string
+    format: date
+  visitCount:
+    type: integer
+  notes:
+    type: string
+required:
+  - customerId
+  - name
+  - kana
+  - firstVisitDate
+  - lastVisitDate
+  - visitCount

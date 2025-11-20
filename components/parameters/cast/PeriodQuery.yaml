@@ -1,0 +1,8 @@
+name: period
+in: query
+description: '集計期間 (today, week, month)'
+required: true
+schema:
+  type: string
+  enum: [today, week, month]
+  example: 'month'

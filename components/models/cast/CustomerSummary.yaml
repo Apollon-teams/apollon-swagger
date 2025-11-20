@@ -1,0 +1,16 @@
+type: object
+properties:
+  customerId:
+    type: string
+  name:
+    type: string
+  lastVisitDate:
+    type: string
+    format: date
+  visitCount:
+    type: integer
+required:
+  - customerId
+  - name
+  - lastVisitDate
+  - visitCount

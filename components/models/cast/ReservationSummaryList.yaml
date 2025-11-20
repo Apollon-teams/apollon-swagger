@@ -1,0 +1,6 @@
+type: object
+properties:
+  reservations:
+    type: array
+    items:
+      $ref: './ReservationSummary.yaml'

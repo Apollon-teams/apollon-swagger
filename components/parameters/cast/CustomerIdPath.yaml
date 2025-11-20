@@ -1,0 +1,7 @@
+name: customerId
+in: path
+description: '顧客ID'
+required: true
+schema:
+  type: string
+  example: 'cust_12345'
