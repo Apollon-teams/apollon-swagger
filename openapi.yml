@@ -13,18 +13,12 @@ servers:
     description: 開発環境サーバー
   - url: https://api.apollon.example.com/v1
     description: 本番環境サーバー
-
 tags:
   - name: Web
     description: Web予約システム向けAPI
   - name: Cast
     description: キャスト専用API
-
 paths:
-  # =================================================
-  # Cast Auth APIs
-  # =================================================
-
   /auth/login:
     post:
       tags:
@@ -96,10 +90,6 @@ paths:
                 $ref: '#/components/schemas/SuccessResponse'
         default:
           $ref: '#/components/responses/DefaultError'
-
-  # =================================================
-  # Cast Data APIs
-  # =================================================
   /casts/{castId}/todays-shift:
     get:
       tags:
@@ -286,10 +276,6 @@ paths:
                 $ref: "#/components/schemas/VisitHistoryList"
         default:
           $ref: '#/components/responses/DefaultError'
-
-  # =================================================
-  # Web APIs
-  # =================================================
   /web/shops/{shopId}/attendance-casts:
     get:
       tags:
@@ -356,71 +342,478 @@ paths:
           description: 予約成功
         default:
           $ref: '#/components/responses/DefaultError'
-
 components:
-  # =================================================
-  # Schemas
-  # =================================================
   schemas:
-    # Cast Auth
     AuthMeResponse:
-      $ref: "./components/models/cast/AuthMeResponse.yaml"
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          description: 成功フラグ
+          example: true
+        userId:
+          type: string
+          description: Supabase Auth のユーザーID
+          example: 'ae93f1c2-xxxx-xxxx-xxxx-f0e85c4dd111'
+        storeId:
+          type: string
+          description: 店舗ID
+          example: '1001'
+        castId:
+          type: string
+          description: キャストID
+          example: 'cst-00123'
+        emailAddress:
+          type: string
+          description: メールアドレス（Auth プロバイダから取得）
+          nullable: true
+          example: 'test@example.com'
+        authProvider:
+          type: string
+          description: '`email` / `google` / `apple`'
+          enum:
+            - email
+            - google
+            - apple
+          example: 'email'
+      required:
+        - isSuccess
+        - userId
+        - storeId
+        - castId
+        - authProvider
     LogoutRequest:
-      $ref: "./components/models/cast/LogoutRequest.yaml"
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT アクセストークン
+        refreshToken:
+          type: string
+          description: リフレッシュトークン
+      required:
+        - accessToken
+        - refreshToken
     SuccessResponse:
-      $ref: "./components/models/common/SuccessResponse.yaml"
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          description: 成功フラグ
+          example: true
+      required:
+        - isSuccess
     CastLoginRequest:
-      $ref: "./components/models/cast/CastLoginRequest.yaml"
+      type: object
+      description: キャストログインリクエスト
+      properties:
+        storeId:
+          type: string
+          description: 店舗ID
+          example: '1001'
+        emailAddress:
+          type: string
+          description: メールアドレス
+          example: 'test@example.com'
+        castId:
+          type: string
+          description: キャストID
+          example: 'cst-00032'
+        password:
+          type: string
+          description: パスワード
+          example: 'abc12345'
+      required:
+        - storeId
+        - password
+      oneOf:
+        - required:
+            - emailAddress
+        - required:
+            - castId
     CastLoginResponse:
-      $ref: "./components/models/cast/CastLoginResponse.yaml"
-
+      type: object
+      description: キャストログインレスポンス
+      properties:
+        isSuccess:
+          type: boolean
+          description: ログイン成功フラグ
+          example: true
+        accessToken:
+          type: string
+          description: アクセストークン（JWT）
+          example: xxxxx.yyyyy.zzzzz
+        refreshToken:
+          type: string
+          description: リフレッシュトークン
+          example: rrrrr.sssss.ttttt
+        userId:
+          type: string
+          description: Supabase Auth のユーザーID
+          example: a1b2c3d4e5
+        storeId:
+          type: string
+          description: 店舗ID
+          example: '1001'
+        castId:
+          type: string
+          description: キャストID
+          example: 'cst-00123'
+      required:
+        - isSuccess
+        - accessToken
+        - refreshToken
+        - userId
+        - storeId
+        - castId
     ResetPasswordRequest:
-      $ref: "./components/models/cast/ResetPasswordRequest.yaml"
-    # Cast Data
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: '登録されているメールアドレス'
+      required:
+        - email
     TodaysShift:
-      $ref: "./components/models/cast/TodaysShift.yaml"
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          description: 出勤開始時刻
+        endTime:
+          type: string
+          format: date-time
+          description: 出勤終了時刻
+        status:
+          type: string
+          description: 出勤ステータス（"通常" / "遅番" など）
+          example: 通常出勤
+      nullable: true
+      description: キャストの今日の出勤情報。休みの場合、このオブジェクトはnullになります。
     TodaysReservations:
-      $ref: "./components/models/cast/TodaysReservations.yaml"
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+          description: 本日の予約件数
+          example: 3
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationToday'
+      description: 今日の予約一覧のレスポンス。
+      required:
+        - count
+        - reservations
     SalesSummary:
-      $ref: "./components/models/cast/SalesSummary.yaml"
+      type: object
+      properties:
+        today:
+          $ref: '#/components/schemas/SalesSummaryItem'
+        thisWeek:
+          $ref: '#/components/schemas/SalesSummaryItem'
+        thisMonth:
+          $ref: '#/components/schemas/SalesSummaryItem'
+      description: 売上サマリ全体のレスポンス。
+      required:
+        - today
+        - thisWeek
+        - thisMonth
     ReservationForm:
       $ref: "./components/results/cast/ReservationForm.yaml"
     CastReservation:
-      $ref: "./components/models/cast/CastReservation.yaml"
+      type: object
+      properties:
+        store_id:
+          type: string
+          description: 店舗ID
+          example: "1"
+        cast_id:
+          type: string
+          description: キャストID（ログイン済みでも送信）
+          example: "12"
+        reservation_datetime:
+          type: string
+          format: date-time
+          description: 予約日時（ISO8601形式）
+          example: "2025-11-15T20:00:00+09:00"
+        shimei_type:
+          type: string
+          description: 指名種別
+          enum: [photo, regular]
+          example: "photo"
+        extension:
+          type: string
+          description: 延長時間
+          enum: ["30", "60", "90"]
+          nullable: true
+          example: "60"
+        discount:
+          type: string
+          description: 店舗割引（店舗設定に応じる）
+          nullable: true
+          example: "A"
+        payment_method:
+          type: string
+          description: 支払い方法
+          enum: [unknown, cash, card]
+          example: "cash"
+        reservation_method:
+          type: string
+          description: 予約方法
+          enum: [line, x, instagram, other]
+          example: "line"
+        reservation_status:
+          type: string
+          description: ステータス
+          enum: [new, draft]
+          example: "new"
+        advertisement:
+          type: array
+          items:
+            type: string
+          description: 広告媒体（複数選択可）
+          example: ["x", "instagram"]
+        treatment_note:
+          type: string
+          description: 施術メモ
+          nullable: true
+          example: "いい人"
+        request:
+          type: string
+          description: ご要望
+          nullable: true
+          example: "静かに過ごしたい"
+      required:
+        - store_id
+        - cast_id
+        - reservation_datetime
+        - shimei_type
+        - payment_method
+        - reservation_method
+        - reservation_status
+        - advertisement
     CreatedCastReservationResponse:
       $ref: "./components/results/cast/CreatedCastReservationResponse.yaml"
     ReservationSummary:
-      $ref: "./components/models/cast/ReservationSummary.yaml"
+      type: object
+      properties:
+        reservationId:
+          type: string
+        customerName:
+          type: string
+        reservationTime:
+          type: string
+          format: date-time
+        course:
+          type: string
+        totalFee:
+          type: integer
+        status:
+          type: string
+      required:
+        - reservationId
+        - customerName
+        - reservationTime
+        - course
+        - totalFee
+        - status
     ReservationSummaryList:
-      $ref: "./components/models/cast/ReservationSummaryList.yaml"
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationSummary'
     CustomerSummary:
-      $ref: "./components/models/cast/CustomerSummary.yaml"
+      type: object
+      properties:
+        customerId:
+          type: string
+        name:
+          type: string
+        lastVisitDate:
+          type: string
+          format: date
+        visitCount:
+          type: integer
+      required:
+        - customerId
+        - name
+        - lastVisitDate
+        - visitCount
     CustomerSummaryList:
-      $ref: "./components/models/cast/CustomerSummaryList.yaml"
+      type: object
+      properties:
+        customers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerSummary'
     CustomerDetail:
-      $ref: "./components/models/cast/CustomerDetail.yaml"
+      type: object
+      properties:
+        customerId:
+          type: string
+        name:
+          type: string
+        kana:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+        firstVisitDate:
+          type: string
+          format: date
+        lastVisitDate:
+          type: string
+          format: date
+        visitCount:
+          type: integer
+        notes:
+          type: string
+      required:
+        - customerId
+        - name
+        - kana
+        - firstVisitDate
+        - lastVisitDate
+        - visitCount
     VisitHistory:
-      $ref: "./components/models/cast/VisitHistory.yaml"
+      type: object
+      properties:
+        visitDate:
+          type: string
+          format: date
+        course:
+          type: string
+        totalFee:
+          type: integer
+        notes:
+          type: string
+      required:
+        - visitDate
+        - course
+        - totalFee
     VisitHistoryList:
-      $ref: "./components/models/cast/VisitHistoryList.yaml"
-    # Web
+      type: object
+      properties:
+        visits:
+          type: array
+          items:
+            $ref: '#/components/schemas/VisitHistory'
     AttendanceCast:
       $ref: "./components/results/web/AttendanceCast.yaml"
     StoreSummary:
-      $ref: "./components/models/web/StoreSummary.yaml"
+      type: object
+      description: 店舗サマリー情報
+      properties:
+        name:
+          type: string
+          description: 店舗名
+          example: "Apollon 銀座店"
+        catch_phrase:
+          type: string
+          description: キャッチフレーズ
+          example: "最高の癒しをお届けします"
+        description:
+          type: string
+          description: 店舗詳細説明
+          example: "銀座の中心にある落ち着いた雰囲気のサロンです。"
+        address:
+          type: string
+          description: 店舗住所
+          example: "東京都中央区銀座1-1-1"
+        access:
+          type: string
+          description: アクセス情報
+          example: "銀座駅A1出口より徒歩3分"
+        business_hours:
+          type: string
+          description: 営業時間
+          example: "18:00 - 26:00"
+        phone_number:
+          type: string
+          description: 電話番号
+          example: "03-1234-5678"
+        line_id:
+          type: string
+          description: LINE ID
+          example: "@apollon_ginza"
+      required:
+        - name
+        - catch_phrase
+        - description
+        - address
+        - access
+        - business_hours
+        - phone_number
+        - line_id
     PriceInfo:
       $ref: "./components/results/web/PriceInfo.yaml"
     CastDetail:
       $ref: "./components/results/web/CastDetail.yaml"
     WebReservation:
-      $ref: "./components/models/web/Reservation.yaml"
-    # Common
+      type: object
+      properties:
+        customer_name:
+          type: string
+          description: お客様の名前
+          example: '山田 太郎'
+        phone_number:
+          type: string
+          description: 電話番号
+          example: '090-1234-5678'
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+          example: 'taro.yamada@example.com'
+        requests:
+          type: string
+          description: ご要望
+          example: '特にありません'
+        reservation_datetime:
+          type: string
+          format: date-time
+          description: 予約日時
+          example: '2025-10-26T19:00:00+09:00'
+        cast_name:
+          type: string
+          description: 指名キャスト名
+          example: 'さくら'
+        course:
+          type: string
+          description: コース
+          example: 'リフレクソロジー60分'
+        options:
+          type: array
+          items:
+            type: string
+          description: オプション
+          example: ['延長10分', 'アロマオイル']
+        total_fee:
+          type: integer
+          description: 合計料金
+          example: 8000
     Error:
-      $ref: "./components/models/common/Error.yaml"
-
-  # =================================================
-  # Parameters
-  # =================================================
+      type: object
+      properties:
+        code:
+          type: string
+          description: エラーコード
+          example: "NOT_FOUND"
+        message:
+          type: string
+          description: エラーメッセージ
+          example: "リソースが見つかりませんでした。"
+      required:
+        - code
+        - message
   parameters:
     CastIdPath:
       $ref: "./components/parameters/cast/CastIdPath.yaml"
@@ -436,12 +829,7 @@ components:
       $ref: "./components/parameters/web/ShopId.yaml"
     DateQuery:
       $ref: "./components/parameters/web/Date.yaml"
-
-  # =================================================
-  # Request Bodies
-  # =================================================
   requestBodies:
-
     CastLoginRequest:
       required: true
       content:
@@ -472,10 +860,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/WebReservation"
-
-  # =================================================
-  # Responses
-  # =================================================
   responses:
     AttendanceCastList:
       description: 成功
@@ -509,10 +893,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
-
-  # =================================================
-  # Security
-  # =================================================
   securitySchemes:
     BearerAuth:
       type: http
