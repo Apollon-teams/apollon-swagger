@@ -1,7 +1,7 @@
 ## エンドポイント
 
 ```
-/cast/reservations
+/casts/reservations
 
 ```
 

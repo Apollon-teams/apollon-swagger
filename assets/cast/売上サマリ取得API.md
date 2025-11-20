@@ -3,7 +3,7 @@
 ## エンドポイント
 
 ```jsx
-/v1/casts/{castId}/sales/summary
+/casts/{castId}/sales/summary
 
 ```
 

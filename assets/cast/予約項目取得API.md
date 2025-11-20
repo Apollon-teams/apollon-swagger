@@ -3,7 +3,7 @@
 ## エンドポイント
 
 ```
-/cast/reservation-items
+/casts/reservation-items
 ```
 
 ## HTTPメソッド
