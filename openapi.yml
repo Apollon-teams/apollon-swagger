@@ -275,6 +275,41 @@ paths:
                 $ref: "#/components/schemas/VisitHistoryList"
         default:
           $ref: '#/components/responses/DefaultError'
+  /casts/report:
+    get:
+      tags:
+        - Cast
+      summary: 給与レポート取得
+      description: ログインしているキャストの給与レポート（売上情報）を取得します。startDate/endDateが無い場合は当月の売上として集計します。
+      operationId: getSalesReport
+      parameters:
+        - name: startDate
+          in: query
+          description: 任意期間の開始日（YYYY-MM-DD）
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '2025-11-01'
+        - name: endDate
+          in: query
+          description: 任意期間の終了日（YYYY-MM-DD）
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '2025-11-30'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 正常系レスポンス
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesReportResponse"
+        default:
+          $ref: '#/components/responses/DefaultError'
   /web/shops/{shopId}/attendance-casts:
     get:
       tags:
@@ -712,6 +747,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/VisitHistory'
+    SalesReportResponse:
+      type: object
+      description: 給与レポートレスポンス
+      properties:
+        todaySales:
+          type: number
+          description: 今日の売上
+          example: 32000
+        lastSales:
+          type: number
+          description: 前回の売上（前営業日 or 前シフト日）
+          example: 28000
+        lastWeekSales:
+          type: number
+          description: 先週の売上
+          example: 160000
+        thisMonthSales:
+          type: number
+          description: 今月の売上
+          example: 540000
+        periodSales:
+          type: number
+          description: 任意期間の売上（startDate/endDate 指定時）
+          nullable: true
+          example: 120000
+      required:
+        - todaySales
+        - lastSales
+        - lastWeekSales
+        - thisMonthSales
     AttendanceCast:
       $ref: "./components/results/web/AttendanceCast.yaml"
     StoreSummary:
